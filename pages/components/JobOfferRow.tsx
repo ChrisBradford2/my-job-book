@@ -14,9 +14,10 @@ type JobOffer = {
 type JobOfferRowProps = {
   job: JobOffer;
   handleDelete: (id: number) => void;
+  handleEdit: (job: JobOffer) => void;
 };
 
-const JobOfferRow: React.FC<JobOfferRowProps> = ({ job, handleDelete }) => {
+const JobOfferRow: React.FC<JobOfferRowProps> = ({ job, handleDelete, handleEdit }) => {
 
   return (
     <tr key={job.id} className="bg-white border-b">
@@ -29,7 +30,7 @@ const JobOfferRow: React.FC<JobOfferRowProps> = ({ job, handleDelete }) => {
       <td className="py-4 px-6">{new Date(job.applicationDate).toLocaleDateString()}</td>
       <td className="py-4 px-6">{job.followUpDate ? new Date(job.followUpDate).toLocaleDateString() : 'N/A'}</td>
       <td className="py-4 px-6 flex space-x-4">
-        <a href="#" className="font-medium text-blue-600 hover:underline">Edit</a>
+        <button onClick={() => handleEdit(job)} className="font-medium text-blue-600 hover:underline">Edit</button>
         <button onClick={() => handleDelete(job.id)} className="font-medium text-red-600 hover:underline">Delete</button>
       </td>
     </tr>

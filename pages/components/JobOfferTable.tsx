@@ -15,9 +15,10 @@ type JobOffer = {
 type JobOfferTableProps = {
   jobOffers: JobOffer[];
   handleDelete: (id: number) => void;
+  handleEdit: (job: JobOffer) => void;
 };
 
-const JobOfferTable: React.FC<JobOfferTableProps> = ({ jobOffers, handleDelete }) => {
+const JobOfferTable: React.FC<JobOfferTableProps> = ({ jobOffers, handleDelete, handleEdit }) => {
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
       {jobOffers.length > 0 ? (
@@ -35,7 +36,7 @@ const JobOfferTable: React.FC<JobOfferTableProps> = ({ jobOffers, handleDelete }
           </thead>
           <tbody>
             {jobOffers.map((job) => (
-              <JobOfferRow key={job.id} job={job} handleDelete={handleDelete} />
+              <JobOfferRow key={job.id} job={job} handleDelete={handleDelete} handleEdit={handleEdit} />
             ))}
           </tbody>
         </table>

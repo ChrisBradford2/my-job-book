@@ -1,4 +1,3 @@
-// pages/api/jobOffers/[id].ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../../lib/prisma';
 import { authMiddleware } from '../../../lib/auth';
@@ -14,12 +13,12 @@ const handle = async (req: NextApiRequest, res: NextApiResponse) => {
     const { title, company, link, status, applicationDate, followUpDate } = req.body;
 
     const existingJobOffer = await prisma.jobOffer.findUnique({
-      where: { id: jobId }
+      where: { id: jobId },
     });
 
     if (!existingJobOffer || existingJobOffer.userId !== userId) {
       console.log('Unauthorized attempt to update job offer');
-      return res.status(403).json({ message: "Unauthorized" });
+      return res.status(403).json({ message: 'Unauthorized' });
     }
 
     const jobOffer = await prisma.jobOffer.update({
@@ -31,23 +30,23 @@ const handle = async (req: NextApiRequest, res: NextApiResponse) => {
         status,
         applicationDate: new Date(applicationDate),
         followUpDate: followUpDate ? new Date(followUpDate) : null,
-      }
+      },
     });
     return res.json(jobOffer);
   } else if (req.method === 'DELETE') {
     const existingJobOffer = await prisma.jobOffer.findUnique({
-      where: { id: jobId }
+      where: { id: jobId },
     });
 
     if (!existingJobOffer || existingJobOffer.userId !== userId) {
       console.log('Unauthorized attempt to delete job offer');
-      return res.status(403).json({ message: "Unauthorized" });
+      return res.status(403).json({ message: 'Unauthorized' });
     }
 
     await prisma.jobOffer.delete({
-      where: { id: jobId }
+      where: { id: jobId },
     });
-    return res.status(204).send("Job offer deleted");
+    return res.status(204).send('Job offer deleted');
   } else {
     res.setHeader('Allow', ['PUT', 'DELETE']);
     res.status(405).end(`Method ${req.method} Not Allowed`);

@@ -1,5 +1,6 @@
 type JobOfferFormProps = {
   formData: {
+    id: number;
     title: string;
     company: string;
     link: string;
@@ -59,12 +60,14 @@ const JobOfferForm: React.FC<JobOfferFormProps> = ({ formData, handleInputChange
         placeholder="Follow Up Date"
         className="w-full mb-4 p-2 border border-gray-300 rounded"
       />
-      <button type="submit" className="px-4 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none">
-        Add Job Offer
-      </button>
-      <button onClick={closeModal} type="button" className="mt-4 px-4 py-2 bg-red-500 text-white font-medium rounded-md hover:bg-red-700 focus:outline-none">
-        Close
-      </button>
+      <div className="flex justify-between">
+        <button type="submit" className="px-4 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none">
+          {formData.id ? 'Update Job Offer' : 'Add Job Offer'}
+        </button>
+        <button type="button" onClick={closeModal} className="px-4 py-2 bg-red-500 text-white font-medium rounded-md hover:bg-red-700 focus:outline-none">
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };

@@ -23,6 +23,7 @@ const Dashboard = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
+    id: 0,
     title: '',
     company: '',
     link: '',
@@ -30,6 +31,7 @@ const Dashboard = () => {
     applicationDate: '',
     followUpDate: '',
   });
+  const [currentJobId, setCurrentJobId] = useState<number | null>(null);
   const [token, setToken] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,8 +46,11 @@ const Dashboard = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('/api/jobOffers', {
-        method: 'POST',
+      const method = currentJobId ? 'PUT' : 'POST';
+      const url = currentJobId ? `/api/jobOffers/${currentJobId}` : '/api/jobOffers';
+
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -53,17 +58,23 @@ const Dashboard = () => {
         body: JSON.stringify(formData)
       });
 
-      if (!response.ok) throw new Error('Failed to create job offer');
+      if (!response.ok) throw new Error(`Failed to ${currentJobId ? 'update' : 'create'} job offer`);
 
-      const newJobOffer = await response.json();
-      console.log('New job offer:', newJobOffer);
-      setJobOffers(prevOffers => [...prevOffers, newJobOffer]);
+      const updatedJobOffer = await response.json();
+      console.log(`${currentJobId ? 'Updated' : 'New'} job offer:`, updatedJobOffer);
+
+      if (currentJobId) {
+        setJobOffers(prevOffers => prevOffers.map(offer => offer.id === currentJobId ? updatedJobOffer : offer));
+      } else {
+        setJobOffers(prevOffers => [...prevOffers, updatedJobOffer]);
+      }
+
       closeModal();
     } catch (error) {
-      console.error('Error creating job offer:', error);
+      console.error(`Error ${currentJobId ? 'updating' : 'creating'} job offer:`, error);
     }
   };
-  
+
   const handleDelete = async (id: number) => {
     const confirm = window.confirm('Are you sure you want to delete this job offer?');
     if (!confirm) return;
@@ -79,7 +90,21 @@ const Dashboard = () => {
     } catch (error) {
       console.error('Error deleting job offer:', error);
     }
-  }
+  };
+
+  const handleEdit = (job: JobOffer) => {
+    setCurrentJobId(job.id);
+    setFormData({
+      id: job.id,
+      title: job.title,
+      company: job.company,
+      link: job.link,
+      status: job.status,
+      applicationDate: job.applicationDate,
+      followUpDate: job.followUpDate || '',
+    });
+    openModal();
+  };
 
   function openModal() {
     setIsOpen(true);
@@ -87,6 +112,16 @@ const Dashboard = () => {
 
   function closeModal() {
     setIsOpen(false);
+    setCurrentJobId(null);
+    setFormData({
+      id: 0,
+      title: '',
+      company: '',
+      link: '',
+      status: '',
+      applicationDate: '',
+      followUpDate: '',
+    });
   }
 
   const customStyles = {
@@ -157,10 +192,10 @@ const Dashboard = () => {
         style={customStyles}
         contentLabel="Add Job Offer Modal"
       >
-        <h2 className="text-xl font-semibold mb-4">Add New Job Offer</h2>
+        <h2 className="text-xl font-semibold mb-4">{currentJobId ? 'Edit Job Offer' : 'Add New Job Offer'}</h2>
         <JobOfferForm formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} closeModal={closeModal} />
       </Modal>
-      <JobOfferTable jobOffers={jobOffers} handleDelete={handleDelete} />
+      <JobOfferTable jobOffers={jobOffers} handleDelete={handleDelete} handleEdit={handleEdit} />
     </div>
   );
 };

@@ -21,13 +21,16 @@ model User {
 }
 
 model JobOffer {
-  id              Int       @id @default(autoincrement())
-  title           String
-  company         String
-  link            String
-  status          String
-  applicationDate DateTime
-  followUpDate    DateTime?
-  userId          Int
-  user            User      @relation(fields: [userId], references: [id])
+  id             Int      @id @default(autoincrement())
+  title          String
+  company        String
+  link           String
+  status         String   @default("Ready to apply")
+  applicationDate DateTime?
+  followUpDate   DateTime?
+  interviewDate  DateTime?
+  userId         Int
+  user           User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }

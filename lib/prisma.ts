@@ -1,15 +1,15 @@
-import { PrismaClient } from "@prisma/client";
+// lib/prisma.ts
+import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
-
-async function registerUser(username: string, password: string) {
-  const newUser = await prisma.user.create({
-    data: {
-      username,
-      password,
-    }
-  });
-  return newUser;
+declare global {
+  // Cela permet d'éviter les problèmes de redéclaration de types dans TypeScript
+  var prisma: PrismaClient | undefined;
 }
 
-export { prisma, registerUser };
+const prisma = global.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== 'production') {
+  global.prisma = prisma;
+}
+
+export { prisma };
