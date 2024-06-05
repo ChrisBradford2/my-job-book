@@ -12,7 +12,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
     });
     res.json(jobOffers);
   } else if (req.method === 'POST') {
-    const { title, company, link, status, applicationDate, followUpDate } = req.body;
+    const { title, company, link, status } = req.body;
     const { userId } = req.user;
 
     const jobOffer = await prisma.jobOffer.create({
@@ -20,9 +20,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
         title,
         company,
         link,
-        status,
-        applicationDate: new Date(applicationDate),
-        followUpDate: followUpDate ? new Date(followUpDate) : null,
+        status: status || 'Ready to send',
         userId
       }
     });

@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import Loading from '../components/Loading';
 import JobOfferForm from '../components/JobOfferForm';
 import JobOfferTable from '../components/JobOfferTable';
+import StatusModal from '../components/StatusModal';
 
 type JobOffer = {
   id: number;
@@ -22,6 +23,7 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [statusModalIsOpen, setStatusModalIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     id: 0,
     title: '',
@@ -32,6 +34,7 @@ const Dashboard = () => {
     followUpDate: '',
   });
   const [currentJobId, setCurrentJobId] = useState<number | null>(null);
+  const [currentStatus, setCurrentStatus] = useState<string>('');
   const [token, setToken] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +107,41 @@ const Dashboard = () => {
       followUpDate: job.followUpDate || '',
     });
     openModal();
+  };
+
+  const handleUpdateStatus = async (status: string, additionalData?: any) => {
+    if (!currentJobId) return;
+
+    try {
+      const response = await fetch(`/api/jobOffers/status/${currentJobId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ status, ...additionalData })
+      });
+
+      if (!response.ok) throw new Error('Failed to update job offer status');
+
+      const updatedJobOffer = await response.json();
+      setJobOffers(prevOffers => prevOffers.map(offer => offer.id === currentJobId ? updatedJobOffer : offer));
+      closeStatusModal();
+    } catch (error) {
+      console.error('Error updating job offer status:', error);
+    }
+  };
+
+  const openStatusModal = (jobId: number, currentStatus: string) => {
+    setCurrentJobId(jobId);
+    setCurrentStatus(currentStatus);
+    setStatusModalIsOpen(true);
+  };
+
+  const closeStatusModal = () => {
+    setStatusModalIsOpen(false);
+    setCurrentJobId(null);
+    setCurrentStatus('');
   };
 
   function openModal() {
@@ -195,7 +233,14 @@ const Dashboard = () => {
         <h2 className="text-xl font-semibold mb-4">{currentJobId ? 'Edit Job Offer' : 'Add New Job Offer'}</h2>
         <JobOfferForm formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} closeModal={closeModal} />
       </Modal>
-      <JobOfferTable jobOffers={jobOffers} handleDelete={handleDelete} handleEdit={handleEdit} />
+      {statusModalIsOpen && (
+        <StatusModal
+          currentStatus={currentStatus}
+          onUpdateStatus={handleUpdateStatus}
+          onClose={closeStatusModal}
+        />
+      )}
+      <JobOfferTable jobOffers={jobOffers} handleDelete={handleDelete} handleEdit={handleEdit} openStatusModal={openStatusModal} />
     </div>
   );
 };

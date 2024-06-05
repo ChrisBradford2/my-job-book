@@ -1,3 +1,5 @@
+import React from 'react';
+
 type JobOfferFormProps = {
   formData: {
     id: number;
@@ -5,7 +7,7 @@ type JobOfferFormProps = {
     company: string;
     link: string;
     status: string;
-    applicationDate: string;
+    applicationDate?: string;
     followUpDate?: string;
   };
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -44,22 +46,26 @@ const JobOfferForm: React.FC<JobOfferFormProps> = ({ formData, handleInputChange
         placeholder="Status"
         className="mb-2 w-full p-2 border border-gray-300 rounded"
       />
-      <input
-        type="date"
-        name="applicationDate"
-        value={formData.applicationDate}
-        onChange={handleInputChange}
-        placeholder="Application Date"
-        className="mb-2 w-full p-2 border border-gray-300 rounded"
-      />
-      <input
-        type="date"
-        name="followUpDate"
-        value={formData.followUpDate}
-        onChange={handleInputChange}
-        placeholder="Follow Up Date"
-        className="w-full mb-4 p-2 border border-gray-300 rounded"
-      />
+      {formData.applicationDate && (
+        <input
+          type="date"
+          name="applicationDate"
+          value={formData.applicationDate}
+          onChange={handleInputChange}
+          placeholder="Application Date"
+          className="mb-2 w-full p-2 border border-gray-300 rounded"
+        />
+      )}
+      {formData.followUpDate && (
+        <input
+          type="date"
+          name="followUpDate"
+          value={formData.followUpDate}
+          onChange={handleInputChange}
+          placeholder="Follow Up Date"
+          className="w-full mb-4 p-2 border border-gray-300 rounded"
+        />
+      )}
       <div className="flex justify-between">
         <button type="submit" className="px-4 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none">
           {formData.id ? 'Update Job Offer' : 'Add Job Offer'}
