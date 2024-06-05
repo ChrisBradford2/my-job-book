@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     const token = Cookies.get('auth');
-    console.log('Token from cookies:', token);
+    console.log('Token from cookies:', token); // Debugging line
     if (token) {
       setUserIsLogged(true);
     }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/authContext';
 import Cookies from 'js-cookie';
+import router from 'next/router';
 
 const Header = () => {
   const { userIsLogged, setUserIsLogged } = useAuth();
@@ -28,6 +29,7 @@ const Header = () => {
   const handleLogout = () => {
     Cookies.remove('auth');
     setUserIsLogged(false);
+    router.push('/');
   };
 
   return (

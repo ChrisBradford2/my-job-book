@@ -1,10 +1,11 @@
 // pages/dashboard.tsx
 import { GetServerSideProps } from 'next';
-import { cookies } from 'next/headers';
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import Cookies from 'js-cookie';
-import { useAuth } from '@/context/authContext';
+import Loading from '../components/Loading';
+import JobOfferForm from '../components/JobOfferForm';
+import JobOfferTable from '../components/JobOfferTable';
 
 type JobOffer = {
   id: number;
@@ -29,7 +30,6 @@ const Dashboard = () => {
     applicationDate: '',
     followUpDate: '',
   });
-  const { userIsLogged } = useAuth();
   const [token, setToken] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +42,7 @@ const Dashboard = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-  
+
     try {
       const response = await fetch('/api/jobOffers', {
         method: 'POST',
@@ -52,17 +52,34 @@ const Dashboard = () => {
         credentials: 'include',
         body: JSON.stringify(formData)
       });
-  
+
       if (!response.ok) throw new Error('Failed to create job offer');
-  
+
       const newJobOffer = await response.json();
       console.log('New job offer:', newJobOffer);
-      setJobOffers(prevOffers => [...prevOffers, newJobOffer]);  // Mise à jour de la liste des offres
+      setJobOffers(prevOffers => [...prevOffers, newJobOffer]);
       closeModal();
     } catch (error) {
       console.error('Error creating job offer:', error);
     }
   };
+  
+  const handleDelete = async (id: number) => {
+    const confirm = window.confirm('Are you sure you want to delete this job offer?');
+    if (!confirm) return;
+    try {
+      const response = await fetch(`/api/jobOffers/${id}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+
+      if (!response.ok) throw new Error('Failed to delete job offer');
+
+      setJobOffers(prevOffers => prevOffers.filter(offer => offer.id !== id));
+    } catch (error) {
+      console.error('Error deleting job offer:', error);
+    }
+  }
 
   function openModal() {
     setIsOpen(true);
@@ -85,7 +102,6 @@ const Dashboard = () => {
       padding: '20px'
     },
   };
-
 
   useEffect(() => {
     const tokenFromCookies = Cookies.get('auth');
@@ -128,16 +144,7 @@ const Dashboard = () => {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <div className="text-lg font-semibold">Loading...</div>
-        <div className="w-64 bg-gray-200 h-4 mt-2">
-          <div className="bg-blue-500 h-4 text-xs flex justify-center items-center" style={{ width: `${loadingProgress}%` }}>
-            {loadingProgress}%
-          </div>
-        </div>
-      </div>
-    );
+    return <Loading progress={loadingProgress} />;
   }
 
   return (
@@ -151,98 +158,9 @@ const Dashboard = () => {
         contentLabel="Add Job Offer Modal"
       >
         <h2 className="text-xl font-semibold mb-4">Add New Job Offer</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            placeholder="Job Title"
-            className="mb-2 w-full p-2 border border-gray-300 rounded"
-          />
-          <input
-            name="company"
-            value={formData.company}
-            onChange={handleInputChange}
-            placeholder="Company"
-            className="mb-2 w-full p-2 border border-gray-300 rounded"
-          />
-          <input
-            name="link"
-            value={formData.link}
-            onChange={handleInputChange}
-            placeholder="Job Link"
-            className="mb-2 w-full p-2 border border-gray-300 rounded"
-          />
-          <input
-            name="status"
-            value={formData.status}
-            onChange={handleInputChange}
-            placeholder="Status"
-            className="mb-2 w-full p-2 border border-gray-300 rounded"
-          />
-          <input
-            type="date"
-            name="applicationDate"
-            value={formData.applicationDate}
-            onChange={handleInputChange}
-            placeholder="Application Date"
-            className="mb-2 w-full p-2 border border-gray-300 rounded"
-          />
-          <input
-            type="date"
-            name="followUpDate"
-            value={formData.followUpDate}
-            onChange={handleInputChange}
-            placeholder="Follow Up Date"
-            className="w-full mb-4 p-2 border border-gray-300 rounded"
-          />
-          <button type="submit" className="px-4 py-2 bg-green-500 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none">
-            Add Job Offer
-          </button>
-        </form>
-        <button onClick={closeModal} className="mt-4 px-4 py-2 bg-red-500 text-white font-medium rounded-md hover:bg-red-700 focus:outline-none">
-          Close
-        </button>
+        <JobOfferForm formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} closeModal={closeModal} />
       </Modal>
-      <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-        {jobOffers.length > 0 ? (
-          <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-              <tr>
-                <th scope="col" className="py-3 px-6">Job Title</th>
-                <th scope="col" className="py-3 px-6">Company</th>
-                <th scope="col" className="py-3 px-6">Link</th>
-                <th scope="col" className="py-3 px-6">Status</th>
-                <th scope="col" className="py-3 px-6">Applied Date</th>
-                <th scope="col" className="py-3 px-6">Follow Up Date</th>
-                <th scope="col" className="py-3 px-6">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {jobOffers.map((job) => (
-                <tr key={job.id} className="bg-white border-b">
-                  <td className="py-4 px-6">{job.title}</td>
-                  <td className="py-4 px-6">{job.company}</td>
-                  <td className="py-4 px-6">
-                    <a href={job.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">View Posting</a>
-                  </td>
-                  <td className="py-4 px-6">{job.status}</td>
-                  <td className="py-4 px-6">{new Date(job.applicationDate).toLocaleDateString()}</td>
-                  <td className="py-4 px-6">{job.followUpDate ? new Date(job.followUpDate).toLocaleDateString() : 'N/A'}</td>
-                  <td className="py-4 px-6 flex space-x-4">
-                    <a href="#" className="font-medium text-blue-600 hover:underline">Edit</a>
-                    <a href="#" className="font-medium text-red-600 hover:underline">Delete</a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <div className="text-center text-lg font-semibold p-8">
-            <h2>No job offers found</h2>
-          </div>
-        )}
-      </div>
+      <JobOfferTable jobOffers={jobOffers} handleDelete={handleDelete} />
     </div>
   );
 };

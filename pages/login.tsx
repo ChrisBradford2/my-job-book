@@ -1,9 +1,11 @@
 // pages/login.tsx
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/context/authContext';
 
 const Login = () => {
   const router = useRouter();
+  const { setUserIsLogged } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -21,6 +23,7 @@ const Login = () => {
     });
 
     if (res.ok) {
+      setUserIsLogged(true);
       router.push('/dashboard');
     } else {
       const error = await res.json();
