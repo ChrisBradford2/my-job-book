@@ -44,7 +44,13 @@ const JobOfferRow: React.FC<JobOfferRowProps> = ({
             ? 'bg-green-100 text-green-800'
             : job.status === 'Interview scheduled'
             ? 'bg-purple-100 text-purple-800'
-            : 'bg-red-100 text-red-800'
+            : job.status === 'Waiting feedback'
+            ? 'bg-blue-100 text-blue-800'
+            : job.status === 'Rejected'
+            ? 'bg-red-100 text-red-800'
+            : job.status === 'Offer received'
+            ? 'bg-green-100 text-green-800'
+            : ''
         }`}
         onClick={() => openStatusModal(job.id, job.status)}
       >
