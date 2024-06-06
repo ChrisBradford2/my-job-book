@@ -103,7 +103,7 @@ const Dashboard = () => {
       company: job.company,
       link: job.link,
       status: job.status,
-      applicationDate: job.applicationDate,
+      applicationDate: job.applicationDate || '',
       followUpDate: job.followUpDate || '',
     });
     openModal();

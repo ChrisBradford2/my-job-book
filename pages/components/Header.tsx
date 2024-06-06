@@ -23,9 +23,6 @@ const Header = () => {
     document.documentElement.classList.toggle('dark', !isDarkTheme);
   };
 
-
-  console.log(userIsLogged)
-
   const handleLogout = () => {
     Cookies.remove('auth');
     setUserIsLogged(false);
@@ -36,7 +33,7 @@ const Header = () => {
     <header className="bg-gray-800 text-white shadow-md">
       <div className="container mx-auto p-4 flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold">
-          MyApp
+          My Job Book
         </Link>
         <nav className="flex items-center space-x-4">
           <Link href="/" className="hover:text-gray-300">

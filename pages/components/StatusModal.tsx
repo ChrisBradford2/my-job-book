@@ -18,7 +18,7 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
   const isFollowUpEnabled = followUpDate ? new Date() >= new Date(followUpDate) : false;
 
   useEffect(() => {
-    if (currentStatus === 'Application sent' || currentStatus === 'Interview scheduled' || currentStatus === 'Waiting feedback') {
+    if (['Application sent', 'Interview scheduled', 'Waiting feedback', 'Follow-up sent'].includes(currentStatus)) {
       setStep(2);
     } else if (currentStatus !== 'Ready to send') {
       setStep(2);
@@ -57,7 +57,7 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
   const handleStatusChange = (status: string) => {
     setNewStatus(status);
     handleUpdateStatus(status);
-    if (status !== 'Contacted by recruiter' && status !== 'Interview scheduled' && status !== 'Waiting feedback') {
+    if (!['Contacted by recruiter', 'Interview scheduled', 'Waiting feedback'].includes(status)) {
       onClose();
     }
   };
@@ -156,6 +156,21 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
             </div>
             <div>
               <button onClick={() => handleStatusChange('Contacted by recruiter')} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">
+                Contacted by recruiter
+              </button>
+            </div>
+            <div>
+              <button onClick={() => handleStatusChange('Rejected')} className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
+                Rejected
+              </button>
+            </div>
+          </div>
+        )}
+        {step === 2 && newStatus === 'Follow-up sent' && (
+          <div className="mb-4">
+            <h3 className="font-semibold">Select the status:</h3>
+            <div>
+              <button onClick={() => handleStatusChange('Contacted by recruiter')} className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">
                 Contacted by recruiter
               </button>
             </div>
