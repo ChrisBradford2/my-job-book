@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "package.json", "use": "@vercel/next" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/" }
+  ],
+  "github": {
+    "silent": true
+  },
+  "hooks": {
+    "build": "npm run build && npx prisma generate && npx prisma migrate deploy"
+  },
+  "crons": [
+    {
+      "path": "/api/follow-up",
+      "schedule": "0 8 * * *"
+    }
+  ]
+}
