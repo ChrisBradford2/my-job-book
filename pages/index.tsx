@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import Head from "next/head";
-import Footer from "./components/Footer";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +18,9 @@ export default function Home() {
         <div className="container mx-auto py-20 text-center px-4">
           <h1 className="text-4xl font-bold mb-4">Welcome to My Job Book</h1>
           <p className="text-lg mb-8">Your ultimate tool for managing job applications efficiently.</p>
-          <a href="/dashboard" className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-200">
+          <Link href="/dashboard" className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-200">
             Get Started
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -48,9 +48,9 @@ export default function Home() {
         <div className="container mx-auto text-center px-4">
           <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
           <p className="text-lg mb-8">Join thousands of users who have streamlined their job application process.</p>
-          <a href="/register" className="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700">
+          <Link href="/register" className="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700">
             Sign Up Now
-          </a>
+          </Link>
         </div>
       </section>
     </div>
