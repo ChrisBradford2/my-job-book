@@ -9,9 +9,6 @@
   "github": {
     "silent": true
   },
-  "hooks": {
-    "build": "npm run build && npx prisma generate && npx prisma migrate deploy"
-  },
   "crons": [
     {
       "path": "/api/follow-up",
