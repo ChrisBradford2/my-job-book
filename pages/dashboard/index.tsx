@@ -221,7 +221,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <main className="container mx-auto p-4">
       <h1 className="text-2xl font-bold text-center mb-4">Job Application Dashboard</h1>
       <button onClick={openModal} className="mb-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-700">Add Job Offer</button>
       <Modal
@@ -241,7 +241,7 @@ const Dashboard = () => {
         />
       )}
       <JobOfferTable jobOffers={jobOffers} handleDelete={handleDelete} handleEdit={handleEdit} openStatusModal={openStatusModal} />
-    </div>
+    </main>
   );
 };
 
