@@ -2,7 +2,7 @@ import React from 'react';
 
 type JobOfferFormProps = {
   formData: {
-    id: number;
+    id?: number;
     title: string;
     company: string;
     link: string;

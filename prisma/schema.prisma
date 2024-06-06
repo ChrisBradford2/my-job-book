@@ -14,23 +14,28 @@ datasource db {
 }
 
 model User {
-  id       Int        @id @default(autoincrement())
-  email    String     @unique
-  password String
-  JobOffer JobOffer[]
+  id          Int        @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  email       String     @unique
+  phoneNumber String
+  password    String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  JobOffer    JobOffer[]
 }
 
 model JobOffer {
-  id             Int      @id @default(autoincrement())
-  title          String
-  company        String
-  link           String
-  status         String   @default("Ready to apply")
+  id              Int       @id @default(autoincrement())
+  title           String
+  company         String
+  link            String
+  status          String    @default("Ready to apply")
   applicationDate DateTime?
-  followUpDate   DateTime?
-  interviewDate  DateTime?
-  userId         Int
-  user           User     @relation(fields: [userId], references: [id])
+  followUpDate    DateTime?
+  interviewDate   DateTime?
+  userId          Int
+  user            User      @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }
