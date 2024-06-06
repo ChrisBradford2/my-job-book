@@ -7,6 +7,7 @@ import Loading from '../components/Loading';
 import JobOfferForm from '../components/JobOfferForm';
 import JobOfferTable from '../components/JobOfferTable';
 import StatusModal from '../components/StatusModal';
+import { toast } from 'react-toastify';
 
 type JobOffer = {
   id: number;
@@ -64,7 +65,7 @@ const Dashboard = () => {
       if (!response.ok) throw new Error(`Failed to ${currentJobId ? 'update' : 'create'} job offer`);
 
       const updatedJobOffer = await response.json();
-      console.log(`${currentJobId ? 'Updated' : 'New'} job offer:`, updatedJobOffer);
+      toast.success(`${currentJobId ? 'Updated' : 'Created'} job offer successfully 🎉`)
 
       if (currentJobId) {
         setJobOffers(prevOffers => prevOffers.map(offer => offer.id === currentJobId ? updatedJobOffer : offer));
@@ -74,7 +75,7 @@ const Dashboard = () => {
 
       closeModal();
     } catch (error) {
-      console.error(`Error ${currentJobId ? 'updating' : 'creating'} job offer:`, error);
+      toast.error(`Failed to ${currentJobId ? 'update' : 'create'} job offer, please try again`);
     }
   };
 
@@ -91,7 +92,7 @@ const Dashboard = () => {
 
       setJobOffers(prevOffers => prevOffers.filter(offer => offer.id !== id));
     } catch (error) {
-      console.error('Error deleting job offer:', error);
+      toast.error('Failed to delete job offer, please try again');
     }
   };
 
@@ -126,9 +127,10 @@ const Dashboard = () => {
 
       const updatedJobOffer = await response.json();
       setJobOffers(prevOffers => prevOffers.map(offer => offer.id === currentJobId ? updatedJobOffer : offer));
+      toast.success('Updated job offer status successfully 🎉');
       closeStatusModal();
     } catch (error) {
-      console.error('Error updating job offer status:', error);
+      toast.error('Failed to update job offer status, please try again');
     }
   };
 
@@ -177,14 +179,6 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    const tokenFromCookies = Cookies.get('auth');
-    const documentToken = document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1");
-    console.log('Token from cookies:', tokenFromCookies);
-    console.log('Token from document.cookie:', documentToken);
-    setToken(tokenFromCookies || '');
-  }, []);
-
-  useEffect(() => {
     const loadJobOffers = async () => {
       const interval = setInterval(() => {
         setLoadingProgress((oldProgress) => {
@@ -203,13 +197,15 @@ const Dashboard = () => {
         });
         if (!response.ok) throw new Error('Failed to load job offers');
         const data = await response.json();
-        console.log('Job offers:', data);
         setJobOffers(data);
         clearInterval(interval);
         setLoadingProgress(100);
         setIsLoading(false);
-      } catch (error) {
-        console.error('Error loading job offers:', error);
+      } catch (error: any) {
+        toast.error('Failed to load job offers: ' + error.message);
+        clearInterval(interval);
+        setLoadingProgress(100);
+        setIsLoading(false);
       }
     };
 

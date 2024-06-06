@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/authContext';
 import Cookies from 'js-cookie';
 import router from 'next/router';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 const Header = () => {
   const { userIsLogged, setUserIsLogged } = useAuth();
@@ -56,9 +57,19 @@ const Header = () => {
               </Link>
             </>
           )}
-          <button onClick={toggleTheme} className="bg-gray-700 px-3 py-1 rounded hover:bg-gray-600">
-            {isDarkTheme ? 'Light Theme' : 'Dark Theme'}
-          </button>
+          <label className="flex items-center cursor-pointer">
+            <FaSun className="text-yellow-500 mr-3" />
+            <input type="checkbox" className="sr-only" checked={isDarkTheme} onChange={toggleTheme} />
+            <div className="relative">
+              <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
+              <div
+                className={`dot absolute left-1 top-1 w-6 h-6 rounded-full transition ${
+                  isDarkTheme ? 'transform translate-x-full bg-gray-300' : 'bg-yellow-500'
+                }`}
+              ></div>
+            </div>
+            <FaMoon className="text-gray-400 ml-3" />
+          </label>
         </nav>
       </div>
     </header>

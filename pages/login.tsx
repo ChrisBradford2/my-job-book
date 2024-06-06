@@ -2,16 +2,19 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/context/authContext';
+import { toast } from 'react-toastify';
+import { FaSpinner } from 'react-icons/fa';
 
 const Login = () => {
   const router = useRouter();
   const { setUserIsLogged } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     const res = await fetch('/api/login', {
       method: 'POST',
@@ -24,10 +27,12 @@ const Login = () => {
 
     if (res.ok) {
       setUserIsLogged(true);
+      setLoading(false);
       router.push('/dashboard');
     } else {
       const error = await res.json();
-      setError(error.message);
+      setLoading(false);
+      toast.error(error.message);
     }
   };
 
@@ -60,16 +65,11 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${loading ? 'bg-gray-500 cursor-not-allowed' : ''}`}
           >
-            Sign In
+            {loading ? <FaSpinner className="animate-spin inline-block" /> : 'Login'}
           </button>
         </form>
-        {error && (
-          <div className="text-red-500 text-sm mt-4">
-            {error}
-          </div>
-        )}
       </div>
     </div>
   );
