@@ -3,11 +3,11 @@ import Link from 'next/link';
 import { useAuth } from '@/context/authContext';
 import Cookies from 'js-cookie';
 import router from 'next/router';
-import { FaSun, FaMoon } from 'react-icons/fa';
-
+import { FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
 const Header = () => {
   const { userIsLogged, setUserIsLogged } = useAuth();
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -36,7 +36,7 @@ const Header = () => {
         <Link href="/" className="text-2xl font-bold">
           My Job Book
         </Link>
-        <nav className="flex items-center space-x-4">
+        <nav className="hidden md:flex items-center space-x-4">
           <Link href="/" className="hover:text-gray-300">
             Home
           </Link>
@@ -71,7 +71,60 @@ const Header = () => {
             <FaMoon className="text-gray-400 ml-3" />
           </label>
         </nav>
+        <div className="md:hidden flex items-center">
+          <button onClick={() => setIsSidebarOpen(true)} className="text-gray-300 hover:text-white focus:outline-none">
+            <FaBars className="h-6 w-6" />
+          </button>
+        </div>
       </div>
+      {isSidebarOpen && (
+        <div className="fixed inset-0 z-50 flex justify-end">
+          <div className="fixed inset-0 bg-black opacity-50" onClick={() => setIsSidebarOpen(false)}></div>
+          <div className="relative bg-gray-800 w-64 h-full shadow-xl">
+            <div className="flex items-center justify-between p-4 border-b border-gray-700">
+              <h2 className="text-2xl font-bold">Menu</h2>
+              <button onClick={() => setIsSidebarOpen(false)} className="text-gray-300 hover:text-white focus:outline-none">
+                <FaTimes className="h-6 w-6" />
+              </button>
+            </div>
+            <nav className="p-4 space-y-4">
+              <Link href="/" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
+                Home
+              </Link>
+              <Link href="/dashboard" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
+                Dashboard
+              </Link>
+              {userIsLogged ? (
+                <button onClick={() => { handleLogout(); setIsSidebarOpen(false); }} className="block w-full text-left text-gray-300 hover:text-white">
+                  Logout
+                </button>
+              ) : (
+                <>
+                  <Link href="/login" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
+                    Login
+                  </Link>
+                  <Link href="/register" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
+                    Register
+                  </Link>
+                </>
+              )}
+              <label className="flex items-center cursor-pointer mt-4">
+                <FaSun className="text-yellow-500 mr-3" />
+                <input type="checkbox" className="sr-only" checked={isDarkTheme} onChange={toggleTheme} />
+                <div className="relative">
+                  <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
+                  <div
+                    className={`dot absolute left-1 top-1 w-6 h-6 rounded-full transition ${
+                      isDarkTheme ? 'transform translate-x-full bg-gray-300' : 'bg-yellow-500'
+                    }`}
+                  ></div>
+                </div>
+                <FaMoon className="text-gray-400 ml-3" />
+              </label>
+            </nav>
+          </div>
+        </div>
+      )}
     </header>
   );
 };
