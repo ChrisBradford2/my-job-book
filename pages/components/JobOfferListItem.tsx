@@ -21,15 +21,13 @@ type JobOfferListItemProps = {
 };
 
 const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, handleEdit, openStatusModal }) => {
-  if (!job) return null; // Retournez null si job est null
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const toggleDialog = () => setIsDialogOpen(!isDialogOpen);
+
+  if (!job) return null;
 
   const followUp = job.followUpDate ? new Date(job.followUpDate).toLocaleDateString() : 'N/A';
   const needFollowUp = followUp !== 'N/A' && new Date(followUp) < new Date();
-
-  const toggleDialog = () => setIsDialogOpen(!isDialogOpen);
-
-
 
   return (
     <li className="job-list-item border p-4 rounded-lg shadow-sm bg-white">
