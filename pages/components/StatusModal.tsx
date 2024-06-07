@@ -47,9 +47,16 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
     if (status === 'Application sent') {
       additionalDataObj.applicationDate = new Date().toISOString();
       additionalDataObj.followUpDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+    } else if (status === 'Contacted by recruiter') {
+      additionalDataObj.interviewDate = new Date().toISOString();
+      additionalDataObj.followUpDate = '';
     } else if (status === 'Interview scheduled') {
       additionalDataObj.interviewDate = interviewDate;
+    } else if (status === 'Waiting feedback') {
+      additionalDataObj.followUpDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
     }
+
+    console.log({ ...additionalDataObj, ...additionalData });
 
     onUpdateStatus(status, { ...additionalDataObj, ...additionalData });
   };

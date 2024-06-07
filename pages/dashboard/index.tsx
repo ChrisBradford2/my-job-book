@@ -8,6 +8,7 @@ import JobOfferForm from '../components/JobOfferForm';
 import JobOfferTable from '../components/JobOfferList';
 import StatusModal from '../components/StatusModal';
 import { toast } from 'react-toastify';
+import FilterSortControls from '../components/FilterSortControls';
 
 type JobOffer = {
   id: number;
@@ -36,7 +37,11 @@ const Dashboard = () => {
   });
   const [currentJobId, setCurrentJobId] = useState<number | null>(null);
   const [currentStatus, setCurrentStatus] = useState<string>('');
-  const [token, setToken] = useState('');
+  const [filterStatus, setFilterStatus] = useState<string>('');
+  const [sortField, setSortField] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+  const isDarkMode = Cookies.get('theme') === 'dark';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -174,9 +179,22 @@ const Dashboard = () => {
       transform: 'translate(-50%, -50%)',
       width: '80%',
       border: '1px solid #ccc',
+      backgroundColor: isDarkMode ? '#333' : '#fff', // Gérer la couleur de fond en fonction du mode
+      color: isDarkMode ? '#fff' : '#000', 
       padding: '20px'
     },
   };
+
+  const filteredJobOffers = jobOffers
+    .filter((job) => (filterStatus ? job.status === filterStatus : true))
+    .sort((a, b) => {
+      if (!sortField) return 0;
+      const aField = a[sortField as keyof JobOffer];
+      const bField = b[sortField as keyof JobOffer];
+      if ((aField ?? '') < (bField ?? '')) return sortOrder === 'asc' ? -1 : 1;
+      if ((aField ?? '') > (bField ?? '')) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
 
   useEffect(() => {
     const loadJobOffers = async () => {
@@ -219,6 +237,14 @@ const Dashboard = () => {
   return (
     <main className="container mx-auto p-4">
       <h1 className="text-2xl font-bold text-center mb-4">Job Application Dashboard</h1>
+      <FilterSortControls
+        filterStatus={filterStatus}
+        setFilterStatus={setFilterStatus}
+        sortField={sortField}
+        setSortField={setSortField}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
+      />
       <button onClick={openModal} className="mb-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-700">Add Job Offer</button>
       <Modal
         isOpen={modalIsOpen}
@@ -236,7 +262,7 @@ const Dashboard = () => {
           onClose={closeStatusModal}
         />
       )}
-      <JobOfferTable jobOffers={jobOffers} handleDelete={handleDelete} handleEdit={handleEdit} openStatusModal={openStatusModal} />
+      <JobOfferTable jobOffers={filteredJobOffers} handleDelete={handleDelete} handleEdit={handleEdit} openStatusModal={openStatusModal} />
     </main>
   );
 };
