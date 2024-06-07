@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import Cookies from 'js-cookie';
 import Loading from '../components/Loading';
 import JobOfferForm from '../components/JobOfferForm';
-import JobOfferTable from '../components/JobOfferTable';
+import JobOfferTable from '../components/JobOfferList';
 import StatusModal from '../components/StatusModal';
 import { toast } from 'react-toastify';
 
