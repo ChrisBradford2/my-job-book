@@ -8,7 +8,7 @@ const handle = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = req.user.userId; // Assurez-vous que le JWT contient l'userId
 
   if (req.method === 'PUT') {
-    const { title, company, link, status, applicationDate, followUpDate, interviewDate } = req.body;
+    const { title, company, link, recruiterEmail, status, applicationDate, followUpDate, interviewDate } = req.body;
 
     const existingJobOffer = await prisma.jobOffer.findUnique({
       where: { id: jobId },
@@ -18,7 +18,7 @@ const handle = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(403).json({ message: 'Unauthorized' });
     }
 
-    const updatedData: any = { title, company, link, status };
+    const updatedData: any = { title, company, link, recruiterEmail, status };
 
     if (applicationDate) {
       updatedData.applicationDate = new Date(applicationDate);

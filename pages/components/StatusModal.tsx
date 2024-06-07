@@ -1,4 +1,5 @@
 // components/StatusModal.tsx
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
 type StatusModalProps = {
@@ -14,6 +15,8 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
   const [coverLetterSent, setCoverLetterSent] = useState(false);
   const [interviewDate, setInterviewDate] = useState('');
   const [step, setStep] = useState(0);
+
+  const followUpMessage = 'Dear [Recruiter Name],\n\nI hope this email finds you well. I am writing to follow up on the job application I submitted on [Application Date]. I am very excited about the opportunity to work at [Company Name] and I am looking forward to hearing back from you soon.\n\nBest regards,\n[Your Name]';
 
   const isFollowUpEnabled = followUpDate ? new Date() >= new Date(followUpDate) : false;
 
@@ -69,6 +72,11 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
     }
   };
 
+  const sendFollowUp = () => {
+    handleUpdateStatus('Follow-up sent', { followUpDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() });
+    onClose();
+  }
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-8 rounded-lg shadow-lg">
@@ -106,7 +114,7 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
             <h3 className="font-semibold">Select the status:</h3>
             <div>
               <button
-                onClick={() => handleStatusChange('Follow-up sent')}
+                onClick={() => sendFollowUp()}
                 className={`mt-4 px-4 py-2 rounded-md ${
                   isFollowUpEnabled ? 'bg-yellow-500 text-white hover:bg-yellow-700' : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}

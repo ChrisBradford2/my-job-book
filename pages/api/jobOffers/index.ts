@@ -12,14 +12,19 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
     });
     res.json(jobOffers);
   } else if (req.method === 'POST') {
-    const { title, company, link, status } = req.body;
+    const { title, company, link, recruiterEmail, status } = req.body;
     const { userId } = req.user;
+
+    if (!title || !company || !link) {
+      return res.status(400).json({ message: "Title, company, and link are required" });
+    }
 
     const jobOffer = await prisma.jobOffer.create({
       data: {
         title,
         company,
         link,
+        recruiterEmail: recruiterEmail || '',
         status: status || 'Ready to send',
         userId
       }

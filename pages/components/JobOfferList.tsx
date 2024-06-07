@@ -7,6 +7,7 @@ type JobOffer = {
   title: string;
   company: string;
   link: string;
+  recruiterEmail?: string;
   status: string;
   applicationDate: string;
   followUpDate?: string;

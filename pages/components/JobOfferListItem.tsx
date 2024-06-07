@@ -1,5 +1,6 @@
 // components/JobOfferRow.tsx
 import { Dialog, Transition } from '@headlessui/react';
+import Link from 'next/link';
 import { Fragment, useState } from 'react';
 import { FaEdit, FaEllipsisV, FaTrash } from 'react-icons/fa';
 
@@ -8,6 +9,7 @@ type JobOffer = {
   title: string;
   company: string;
   link: string;
+  recruiterEmail?: string;
   status: string;
   applicationDate: string;
   followUpDate?: string;
@@ -84,7 +86,13 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
         <div className='relative'>
           <div className="mb-2">
             <span className="font-semibold">Company: </span>
-            <span>{job.company}</span>
+            {job.recruiterEmail ? (
+              <Link href={`mailto:${job.recruiterEmail}`} className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer" title='Contact recruiter'>
+                {job.company}
+              </Link>
+            ) : (
+              <span>{job.company}</span>
+            )}
           </div>
           <div className="mb-2">
             <span className="font-semibold">Link: </span>

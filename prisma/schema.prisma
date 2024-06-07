@@ -30,6 +30,7 @@ model JobOffer {
   title           String
   company         String
   link            String
+  recruiterEmail  String?
   status          String    @default("Ready to apply")
   applicationDate DateTime?
   followUpDate    DateTime?
