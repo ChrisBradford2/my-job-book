@@ -1,6 +1,7 @@
 import Modal from 'react-modal';
 import JobOfferForm from '../JobOfferForm';
 import { JobOffer } from '../../../hooks/useJobOffers';
+import { useTranslation } from 'next-i18next';
 
 type JobOfferModalContainerProps = {
   modalIsOpen: boolean;
@@ -13,6 +14,8 @@ type JobOfferModalContainerProps = {
 
 const JobOfferModalContainer = ({ modalIsOpen, closeModal, formData, handleInputChange, handleSubmit, isDarkMode }: JobOfferModalContainerProps) => {
   if (!formData) return null;
+
+  const { t } = useTranslation('common');
 
   const customStyles = {
     content: {
@@ -37,7 +40,7 @@ const JobOfferModalContainer = ({ modalIsOpen, closeModal, formData, handleInput
       style={customStyles}
       contentLabel="Add Job Offer Modal"
     >
-      <h2 className="text-xl font-semibold mb-4">{formData.id ? 'Edit Job Offer' : 'Add New Job Offer'}</h2>
+      <h2 className="text-xl font-semibold mb-4">{formData.id ? t('edit_job_offer') : t('add_job_offer')}</h2>
       <JobOfferForm formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} closeModal={closeModal} />
     </Modal>
   );

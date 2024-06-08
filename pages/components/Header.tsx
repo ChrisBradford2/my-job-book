@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/authContext';
 import Cookies from 'js-cookie';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useTranslation } from 'next-i18next';
+
 const Header = () => {
   const { userIsLogged, setUserIsLogged } = useAuth();
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const router = useRouter();
+  const { t } = useTranslation('common');
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -38,22 +44,25 @@ const Header = () => {
         </Link>
         <nav className="hidden md:flex items-center space-x-4">
           <Link href="/" className="hover:text-gray-300">
-            Home
+            {t('home')}
           </Link>
-          <Link href="/dashboard" className="hover:text-gray-300">
-            Dashboard
-          </Link>
+          <LanguageSwitcher />
           {userIsLogged ? (
-            <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded hover:bg-red-700">
-              Logout
-            </button>
+            <>
+              <Link href="/dashboard" className="hover:text-gray-300">
+                {t('dashboard')}
+              </Link>
+              <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded hover:bg-red-700">
+                {t('logout')}
+              </button>
+            </>
           ) : (
             <>
               <Link href="/login" className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-700">
-                Login
+                {t('login')}
               </Link>
               <Link href="/register" className="bg-green-500 px-3 py-1 rounded hover:bg-green-700">
-                Register
+                {t('register')}
               </Link>
             </>
           )}
@@ -95,22 +104,23 @@ const Header = () => {
           </div>
           <nav className="p-4 space-y-4">
             <Link href="/" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
-              Home
+              {t('home')}
             </Link>
             <Link href="/dashboard" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
-              Dashboard
+              {t('dashboard')}
             </Link>
+            <LanguageSwitcher />
             {userIsLogged ? (
               <button onClick={() => { handleLogout(); setIsSidebarOpen(false); }} className="block w-full text-left text-gray-300 hover:text-white">
-                Logout
+                {t('logout')}
               </button>
             ) : (
               <>
                 <Link href="/login" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
-                  Login
+                  {t('login')}
                 </Link>
                 <Link href="/register" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
-                  Register
+                  {t('register')}
                 </Link>
               </>
             )}

@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../../lib/prisma';
+import { useTranslation } from 'react-i18next';
 
 interface RegisterRequest {
   firstName: string;
@@ -13,6 +14,7 @@ interface RegisterRequest {
 
 export default async function register(req: NextApiRequest, res: NextApiResponse) {
   const { firstName, lastName, email, phoneNumber, password }: RegisterRequest = req.body;
+  const { t } = useTranslation('common');
 
   // Vérifier si l'utilisateur existe déjà
   const existingUser = await prisma.user.findUnique({
@@ -20,43 +22,43 @@ export default async function register(req: NextApiRequest, res: NextApiResponse
   });
 
   if (existingUser) {
-    return res.status(409).json({ message: "User already exists" });
+    return res.status(409).json({ message: t('user_already_exists') });
   }
 
   // Vérifier les champs requis
   if (!firstName) {
-    return res.status(400).json({ message: "First name is required" });
+    return res.status(400).json({ message: t('first_name_required') });
   }
 
   if (!lastName) {
-    return res.status(400).json({ message: "Last name is required" });
+    return res.status(400).json({ message: t('last_name_required') });
   }
 
   if (!email) {
-    return res.status(400).json({ message: "Email is required" });
+    return res.status(400).json({ message: t('email_required') });
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: "Invalid email address" });
+    return res.status(400).json({ message: t('invalid_email') });
   }
 
   if (!phoneNumber) {
-    return res.status(400).json({ message: "Phone number is required" });
+    return res.status(400).json({ message: t('phone_number_required') });
   }
 
   const phoneRegex = /^\+[1-9]\d{1,14}$/;
   if (!phoneRegex.test(phoneNumber)) {
-    return res.status(400).json({ message: "Invalid phone number, must begin with a '+' sign followed by the country code and the phone number" });
+    return res.status(400).json({ message: t('invalid_phone_number_format') });
   }
 
   if (!password) {
-    return res.status(400).json({ message: "Password is required" });
+    return res.status(400).json({ message: t('password_required') });
   }
 
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/;
   if (!passwordRegex.test(password)) {
-    return res.status(400).json({ message: "Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one special character" });
+    return res.status(400).json({ message: t('invalid_password_format') });
   }
 
   // Hasher le mot de passe
@@ -73,8 +75,8 @@ export default async function register(req: NextApiRequest, res: NextApiResponse
       }
     });
 
-    return res.status(201).json({ message: "User registered successfully" });
+    return res.status(201).json({ message: t('user_registered') });
   } catch (err: any) {
-    return res.status(500).json({ message: "Failed to register user", error: err.message });
+    return res.status(500).json({ message: err.message });
   }
 }

@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import Link from 'next/link';
 import { Fragment, useState } from 'react';
 import { FaEdit, FaEllipsisV, FaTrash } from 'react-icons/fa';
+import { useTranslation } from 'next-i18next';
 
 type JobOffer = {
   id: number;
@@ -31,6 +32,8 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
 
   const followUp = job.followUpDate ? new Date(job.followUpDate).toLocaleDateString() : 'N/A';
   const needFollowUp = followUp !== 'N/A' && new Date(followUp) < new Date();
+
+  const { t } = useTranslation("common");
 
   return (
     <li className="job-list-item border p-4 rounded-lg shadow-sm bg-white">
@@ -85,7 +88,7 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
       <div className="flex flex-col md:relative md:block space-y-2 md:flex-row md:space-x-4 md:space-y-0">
         <div className='relative'>
           <div className="mb-2">
-            <span className="font-semibold">Company: </span>
+            <span className="font-semibold">{t("company")}: </span>
             {job.recruiterEmail ? (
               <Link href={`mailto:${job.recruiterEmail}`} className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer" title='Contact recruiter'>
                 {job.company}
@@ -95,24 +98,24 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
             )}
           </div>
           <div className="mb-2">
-            <span className="font-semibold">Link: </span>
+            <span className="font-semibold">{t('link')}: </span>
             <a href={job.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">View Posting</a>
           </div>
           {job.status !== 'Ready to send' && (
             <div className="mb-2">
-              <span className="font-semibold">Applied Date: </span>
+              <span className="font-semibold">{t('application_date')}: </span>
               <span>{job.applicationDate ? new Date(job.applicationDate).toLocaleDateString() : 'N/A'}</span>
             </div>
           )}
           {(job.status === 'Application sent' || job.status === 'Follow-up sent' || job.status === 'Waiting feedback') && (
             <div className="mb-2">
-              <span className="font-semibold">Follow Up Date: </span>
+              <span className="font-semibold">{t('follow_up_date')}: </span>
               <span>{job.followUpDate ? new Date(job.followUpDate).toLocaleDateString() : 'N/A'}</span>
             </div>
           )}
           {job.status === 'Interview scheduled' && (
             <div className="mb-2">
-              <span className="font-semibold">Interview Date: </span>
+              <span className="font-semibold">{t('interview_date')}: </span>
               <span>{job.interviewDate ? new Date(job.interviewDate).toLocaleDateString() : 'N/A'}</span>
             </div>
           )}
@@ -124,7 +127,7 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
           }`}
           disabled={job.status === 'Offer received' || job.status === 'Rejected'}
         >
-          Update Status
+          {t('change_status')}
         </button>
       </div>
 
@@ -160,7 +163,7 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                      <h3 className="text-lg leading-6 font-medium text-gray-900">Manage Job Offer</h3>
+                      <h3 className="text-lg leading-6 font-medium text-gray-900">{t('manage_job_offer')}</h3>
                       <div className="mt-2">
                         <ul className="divide-y divide-gray-200">
                           <li className="py-4 flex">
@@ -171,7 +174,7 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
                               }}
                               className="text-blue-600 hover:text-blue-900"
                             >
-                              Edit
+                              {t('edit')}
                             </button>
                           </li>
                           <li className="py-4 flex">
@@ -182,7 +185,7 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
                               }}
                               className="text-red-600 hover:text-red-900"
                             >
-                              Delete
+                              {t('delete')}
                             </button>
                           </li>
                         </ul>
@@ -196,7 +199,7 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
                     className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
                     onClick={toggleDialog}
                   >
-                    Close
+                    {t('close')}
                   </button>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 // pages/dashboard.tsx
 import { GetServerSideProps } from 'next';
 import DashboardContent from './components/DashboardContent';
+import { getI18nProps } from '@/lib/i18n';
 
 const Dashboard = () => {
   return <DashboardContent />;
@@ -9,7 +10,8 @@ const Dashboard = () => {
 export default Dashboard;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const userIsLogged = !!context.req.cookies.auth;
+  const { req, locale } = context;
+  const userIsLogged = !!req.cookies.auth;
 
   if (!userIsLogged) {
     return {
@@ -21,6 +23,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   return {
-    props: {},
+    props: {
+      ...(await getI18nProps(locale || 'fr')),
+    },
   };
 };
