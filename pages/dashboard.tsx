@@ -1,10 +1,19 @@
-// pages/dashboard.tsx
+import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import DashboardContent from './components/DashboardContent';
 import { getI18nProps } from '@/lib/i18n';
+import { useTranslation } from 'next-i18next';
 
 const Dashboard = () => {
-  return <DashboardContent />;
+  const { t } = useTranslation('common');
+  return (
+    <>
+      <Head>
+        <title>{t('dashboard')}</title>
+      </Head>
+      <DashboardContent />
+    </>
+  );
 };
 
 export default Dashboard;
