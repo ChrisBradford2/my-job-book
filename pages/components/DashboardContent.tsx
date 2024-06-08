@@ -7,6 +7,7 @@ import FilterSortControls from './FilterSortControls';
 import useJobOffers, { JobOffer } from '../../hooks/useJobOffers';
 import JobOfferModalContainer from './containers/JobOfferModalContainer';
 import StatusModalContainer from './containers/StatusModalContainer';
+import { toast } from 'react-toastify';
 
 const DashboardContent = () => {
   const { jobOffers, isLoading, loadingProgress, addOrUpdateJobOffer, removeJobOffer, updateJobStatus } = useJobOffers();
@@ -27,6 +28,7 @@ const DashboardContent = () => {
   const [filterStatus, setFilterStatus] = useState<string>('');
   const [sortField, setSortField] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [loading, setLoading] = useState(false);
 
   const isDarkMode = Cookies.get('theme') === 'dark';
 
@@ -40,8 +42,14 @@ const DashboardContent = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!formData.title || !formData.company || !formData.link) {
+      toast.error('Please fill out all required fields');
+      return;
+    }
+    setLoading(true);
     await addOrUpdateJobOffer(formData, currentJobId);
     closeModal();
+    setLoading(false);
   };
 
   const handleDelete = async (id: number) => {
@@ -113,7 +121,12 @@ const DashboardContent = () => {
         sortOrder={sortOrder}
         setSortOrder={setSortOrder}
       />
-      <button onClick={openModal} className="mb-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-700">Add Job Offer</button>
+      <div className='flex justify-between items-center mb-4'>
+        <p className="text-lg">
+          Number of Job Offers: {filteredJobOffers.length}
+        </p>
+        <button onClick={openModal} className="mb-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-700">Add Job Offer</button>
+      </div>
       <JobOfferTable jobOffers={filteredJobOffers} handleEdit={handleEdit} handleDelete={handleDelete} openStatusModal={openStatusModal} />
       <JobOfferModalContainer
         modalIsOpen={modalIsOpen}
