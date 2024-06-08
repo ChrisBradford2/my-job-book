@@ -8,6 +8,7 @@ import useJobOffers, { JobOffer } from '../../hooks/useJobOffers';
 import JobOfferModalContainer from './containers/JobOfferModalContainer';
 import StatusModalContainer from './containers/StatusModalContainer';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'next-i18next';
 
 const DashboardContent = () => {
   const { jobOffers, isLoading, loadingProgress, addOrUpdateJobOffer, removeJobOffer, updateJobStatus } = useJobOffers();
@@ -30,6 +31,7 @@ const DashboardContent = () => {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [loading, setLoading] = useState(false);
 
+  const { t } = useTranslation('common');
   const isDarkMode = Cookies.get('theme') === 'dark';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +45,7 @@ const DashboardContent = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!formData.title || !formData.company || !formData.link) {
-      toast.error('Please fill out all required fields');
+      toast.error(t('please_fill_required_fields'));
       return;
     }
     setLoading(true);
@@ -53,7 +55,7 @@ const DashboardContent = () => {
   };
 
   const handleDelete = async (id: number) => {
-    const confirm = window.confirm('Are you sure you want to delete this job offer?');
+    const confirm = window.confirm(t('delete_confirmation'));
     if (!confirm) return;
     await removeJobOffer(id);
   };
@@ -112,7 +114,7 @@ const DashboardContent = () => {
 
   return (
     <main className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold text-center mb-4">Job Application Dashboard</h1>
+      <h1 className="text-2xl font-bold text-center mb-4">{t('job_offers_dashboard')}</h1>
       <FilterSortControls
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
@@ -123,9 +125,9 @@ const DashboardContent = () => {
       />
       <div className='flex justify-between items-center mb-4'>
         <p className="text-lg">
-          Number of Job Offers: {filteredJobOffers.length}
+          {t("number_job_offer")}: {filteredJobOffers.length}
         </p>
-        <button onClick={openModal} className="mb-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-700">Add Job Offer</button>
+        <button onClick={openModal} className="mb-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-700">{t("add_job_offer")}</button>
       </div>
       <JobOfferTable jobOffers={filteredJobOffers} handleEdit={handleEdit} handleDelete={handleDelete} openStatusModal={openStatusModal} />
       <JobOfferModalContainer

@@ -1,6 +1,7 @@
 // components/StatusModal.tsx
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'next-i18next';
 
 type StatusModalProps = {
   currentStatus: string;
@@ -16,9 +17,8 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
   const [interviewDate, setInterviewDate] = useState('');
   const [step, setStep] = useState(0);
 
-  const followUpMessage = 'Dear [Recruiter Name],\n\nI hope this email finds you well. I am writing to follow up on the job application I submitted on [Application Date]. I am very excited about the opportunity to work at [Company Name] and I am looking forward to hearing back from you soon.\n\nBest regards,\n[Your Name]';
-
   const isFollowUpEnabled = followUpDate ? new Date() >= new Date(followUpDate) : false;
+  const { t } = useTranslation('common');
 
   useEffect(() => {
     if (['Application sent', 'Interview scheduled', 'Waiting feedback', 'Follow-up sent'].includes(currentStatus)) {
@@ -31,7 +31,7 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
   const handleNextStep = () => {
     if (step === 0) {
       if (!cvSent || !coverLetterSent) {
-        alert("You must send both CV and cover letter to proceed.");
+        alert(t('cv_cover_letter_required'));
         return;
       }
       setNewStatus('Application sent');
@@ -80,38 +80,38 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-xl font-semibold mb-4">Update Status</h2>
+        <h2 className="text-xl font-semibold mb-4">{t('update_status')}</h2>
         {step === 0 && (
           <div className="mb-4">
-            <h3 className="font-semibold">Before proceeding:</h3>
+            <h3 className="font-semibold">{t('before_proceeding')}</h3>
             <div>
               <label>
                 <input type="checkbox" checked={cvSent} onChange={(e) => setCvSent(e.target.checked)} />
-                I have sent my CV
+                {t('cv_sent')}
               </label>
             </div>
             <div>
               <label>
                 <input type="checkbox" checked={coverLetterSent} onChange={(e) => setCoverLetterSent(e.target.checked)} />
-                I have sent my cover letter
+                {t('cover_letter_sent')}
               </label>
             </div>
             <button onClick={handleNextStep} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">
-              Next
+              {t('next')}
             </button>
           </div>
         )}
         {step === 1 && (
           <div className="mb-4">
-            <p>Your application has been sent.</p>
+            <p>{t('application_sent_message')}</p>
             <button onClick={() => setStep(2)} className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">
-              Confirm
+              {t('continue')}
             </button>
           </div>
         )}
         {step === 2 && newStatus === 'Application sent' && (
           <div className="mb-4">
-            <h3 className="font-semibold">Select the status:</h3>
+            <h3 className="font-semibold">{t('select_status')}:</h3>
             <div>
               <button
                 onClick={() => sendFollowUp()}
@@ -120,17 +120,17 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
                 }`}
                 disabled={!isFollowUpEnabled}
               >
-                Follow-up sent
+                {t('send_follow_up')}
               </button>
             </div>
             <div>
               <button onClick={() => handleStatusChange('Contacted by recruiter')} className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">
-                Contacted by recruiter
+                {t('contacted_by_recruiter')}
               </button>
             </div>
             <div>
               <button onClick={() => handleStatusChange('Rejected')} className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
-                Rejected
+                {t('rejected')}
               </button>
             </div>
           </div>
@@ -138,25 +138,25 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
         {step === 2 && newStatus === 'Contacted by recruiter' && (
           <div className="mb-4">
             <label>
-              Interview Date:
+              {t('interview_date')}:{' '}
               <input type="date" value={interviewDate} onChange={(e) => setInterviewDate(e.target.value)} />
             </label>
             <button onClick={() => handleStatusChange('Interview scheduled')} className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">
-              Schedule Interview
+              {t('schedule_interview')}
             </button>
           </div>
         )}
         {step === 2 && newStatus === 'Interview scheduled' && (
           <div className="mb-4">
-            <h3 className="font-semibold">Select the status:</h3>
+            <h3 className="font-semibold">{t('select_status')}:</h3>
             <div>
               <button onClick={() => handleStatusChange('Waiting feedback')} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">
-                Waiting feedback
+                {t('waiting_feedback')}
               </button>
             </div>
             <div>
               <button onClick={() => handleStatusChange('Rejected')} className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
-                Rejected
+                {t('rejected')}
               </button>
             </div>
           </div>
@@ -166,38 +166,38 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
             <h3 className="font-semibold">Select the status:</h3>
             <div>
               <button onClick={() => handleStatusChange('Offer received')} className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">
-                Offer received
+                {t('offer_received')}
               </button>
             </div>
             <div>
               <button onClick={() => handleStatusChange('Contacted by recruiter')} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">
-                Contacted by recruiter
+                {t('contacted_by_recruiter')}
               </button>
             </div>
             <div>
               <button onClick={() => handleStatusChange('Rejected')} className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
-                Rejected
+                {t('rejected')}
               </button>
             </div>
           </div>
         )}
         {step === 2 && newStatus === 'Follow-up sent' && (
           <div className="mb-4">
-            <h3 className="font-semibold">Select the status:</h3>
+            <h3 className="font-semibold">{t('select_status')}:</h3>
             <div>
               <button onClick={() => handleStatusChange('Contacted by recruiter')} className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">
-                Contacted by recruiter
+                {t('contacted_by_recruiter')}
               </button>
             </div>
             <div>
               <button onClick={() => handleStatusChange('Rejected')} className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
-                Rejected
+                {t('rejected')}
               </button>
             </div>
           </div>
         )}
         <button onClick={onClose} className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
-          Cancel
+          {t('cancel')}
         </button>
       </div>
     </div>

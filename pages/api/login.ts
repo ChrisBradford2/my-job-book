@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 import { prisma } from '../../lib/prisma';
+import i18n from '../../i18n';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'testtest';
 
@@ -11,6 +12,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).end();
   }
 
+  await i18n.changeLanguage(req.headers['accept-language'] || 'en');
+  const { t } = i18n;
+
   const { email, password } = req.body;
 
   const user = await prisma.user.findUnique({
@@ -18,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   });
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(401).json({ message: 'Invalid credentials' });
+    return res.status(401).json({ message: t('invalid_credentials') });
   }
 
   const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '2h' });
@@ -31,5 +35,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     maxAge: 3600,
   }));
 
-  res.status(200).json({ message: 'Logged in successfully' });
+  res.status(200).json({ message: t('login_success') });
 }
