@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
 import jwt from 'jsonwebtoken';
 import { parse } from 'cookie';
+import { prisma } from './prisma';
 
 declare module 'next' {
   interface NextApiRequest {
@@ -25,4 +26,18 @@ export const authMiddleware = (handler: NextApiHandler) => {
       return res.status(403).json({ message: error.message });
     }
   };
+};
+
+export const adminMiddleware = (handler: NextApiHandler) => {
+  return authMiddleware(async (req: NextApiRequest, res: NextApiResponse) => {
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.userId }
+    });
+
+    if (!user || user.role !== 'admin') {
+      return res.status(403).json({ message: "Access denied." });
+    }
+
+    return handler(req, res);
+  });
 };

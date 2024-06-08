@@ -2,17 +2,7 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { fetchJobOffers, createOrUpdateJobOffer, deleteJobOffer, updateJobOfferStatus } from '../requests/jobOffers';
-
-export type JobOffer = {
-  id: number;
-  title: string;
-  company: string;
-  link: string;
-  recruiterEmail?: string;
-  status: string;
-  applicationDate: string;
-  followUpDate?: string;
-};
+import { JobOffer } from '@/types/JobOffer';
 
 const useJobOffers = () => {
   const [jobOffers, setJobOffers] = useState<JobOffer[]>([]);

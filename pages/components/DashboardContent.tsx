@@ -4,11 +4,12 @@ import Cookies from 'js-cookie';
 import Loading from './Loading';
 import JobOfferTable from './JobOfferList';
 import FilterSortControls from './FilterSortControls';
-import useJobOffers, { JobOffer } from '../../hooks/useJobOffers';
+import useJobOffers from '../../hooks/useJobOffers';
 import JobOfferModalContainer from './containers/JobOfferModalContainer';
 import StatusModalContainer from './containers/StatusModalContainer';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'next-i18next';
+import { JobOffer } from '@/types/JobOffer';
 
 const DashboardContent = () => {
   const { jobOffers, isLoading, loadingProgress, addOrUpdateJobOffer, removeJobOffer, updateJobStatus } = useJobOffers();

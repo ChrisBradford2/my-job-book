@@ -13,7 +13,7 @@ interface RegisterRequest {
 }
 
 export default async function register(req: NextApiRequest, res: NextApiResponse) {
-  await i18n.changeLanguage(req.headers['accept-language'] || 'en'); // Change language based on request header or default to 'en'
+  await i18n.changeLanguage(req.headers['accept-language'] || 'en');
   const { t } = i18n;
 
   const { firstName, lastName, email, phoneNumber, password }: RegisterRequest = req.body;

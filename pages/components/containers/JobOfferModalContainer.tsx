@@ -1,7 +1,7 @@
 import Modal from 'react-modal';
 import JobOfferForm from '../JobOfferForm';
-import { JobOffer } from '../../../hooks/useJobOffers';
 import { useTranslation } from 'next-i18next';
+import { JobOffer } from '@/types/JobOffer';
 
 type JobOfferModalContainerProps = {
   modalIsOpen: boolean;

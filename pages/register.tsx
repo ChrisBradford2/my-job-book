@@ -38,31 +38,31 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true); // Début du chargement
+    setLoading(true);
 
     if (!firstName || !lastName || !email || !phoneNumber || !password) {
       toast.error(t('all_fields_required'));
-      setLoading(false); // Fin du chargement
+      setLoading(false);
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       toast.error(t('invalid_email'));
-      setLoading(false); // Fin du chargement
+      setLoading(false);
       return;
     }
 
     const phoneRegex = /^\+[1-9]\d{1,14}$/;
     if (!phoneRegex.test(phoneNumber)) {
       toast.error(t('invalid_phone_number'));
-      setLoading(false); // Fin du chargement
+      setLoading(false);
       return;
     }
 
     if (password !== confirmPassword) {
       toast.error(t('passwords_do_not_match'));
-      setLoading(false); // Fin du chargement
+      setLoading(false);
       return;
     }
 

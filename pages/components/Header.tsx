@@ -43,10 +43,6 @@ const Header = () => {
           My Job Book
         </Link>
         <nav className="hidden md:flex items-center space-x-4">
-          <Link href="/" className="hover:text-gray-300">
-            {t('home')}
-          </Link>
-          <LanguageSwitcher />
           {userIsLogged ? (
             <>
               <Link href="/dashboard" className="hover:text-gray-300">
@@ -66,6 +62,7 @@ const Header = () => {
               </Link>
             </>
           )}
+          <LanguageSwitcher />
           <label className="flex items-center cursor-pointer">
             <FaSun className="text-yellow-500 mr-3" />
             <input type="checkbox" className="sr-only" checked={isDarkTheme} onChange={toggleTheme} />

@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(401).json({ message: t('invalid_credentials') });
   }
 
-  const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '2h' });
+  const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '2h' });
 
   res.setHeader('Set-Cookie', serialize('auth', token, {
     path: '/',

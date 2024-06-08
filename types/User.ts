@@ -1,3 +1,5 @@
+import { JobOffer } from "./JobOffer";
+
 export interface User {
   id: number;
   firstName: string;
@@ -5,4 +7,6 @@ export interface User {
   email: string;
   phoneNumber: string;
   password: string;
+  role: 'user' | 'admin';
+  JobOffer: JobOffer[];
 }
