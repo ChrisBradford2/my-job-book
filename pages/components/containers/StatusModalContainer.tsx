@@ -1,6 +1,5 @@
 // components/StatusModalContainer.tsx
 import StatusModal from '../StatusModal';
-import { JobOffer } from '../../../hooks/useJobOffers';
 
 type StatusModalContainerProps = {
   currentStatus: string;
