@@ -1,5 +1,4 @@
-import { t } from 'i18next';
-import React from 'react';
+import { useTranslation } from 'next-i18next';
 
 interface FilterSortControlsProps {
   filterStatus: string;
@@ -11,6 +10,7 @@ interface FilterSortControlsProps {
 }
 
 const FilterSortControls: React.FC<FilterSortControlsProps> = ({ filterStatus, setFilterStatus, sortField, setSortField, sortOrder, setSortOrder }) => {
+  const { t } = useTranslation('common');
   return (
     <div className="flex flex-col sm:flex-row sm:justify-between mb-4 space-y-2 sm:space-y-0 sm:space-x-4">
       <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">

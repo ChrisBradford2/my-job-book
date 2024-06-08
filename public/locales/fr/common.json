@@ -41,7 +41,7 @@
   "please_fill_required_fields": "Veuillez remplir les champs obligatoires",
   "delete_confirmation": "Êtes-vous sûr de vouloir supprimer cette offre d'emploi ?",
   "job_offers_dashboard": "Tableau de bord des offres d'emploi",
-  "number_job_offers": "Nombre d'offres d'emploi",
+  "number_job_offer": "Nombre d'offres d'emploi",
   "filter_by_status": "Filtrer par statut",
   "all": "Tous",
   "ready_to_send": "Prêt à envoyer",

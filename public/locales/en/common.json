@@ -41,7 +41,7 @@
   "please_fill_required_fields": "Please fill in all required fields.",
   "delete_confirmation": "Are you sure you want to delete this job offer?",
   "job_offers_dashboard": "Job Offers Dashboard",
-  "number_job_offers": "Number of Job Offers",
+  "number_job_offer": "Number of Job Offers",
   "filter_by_status": "Filter by Status",
   "all": "All",
   "ready_to_send": "Ready to Send",

@@ -83,7 +83,7 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
         <h2 className="text-xl font-semibold mb-4">{t('update_status')}</h2>
         {step === 0 && (
           <div className="mb-4">
-            <h3 className="font-semibold">{t('before_proceed')}</h3>
+            <h3 className="font-semibold">{t('before_proceeding')}</h3>
             <div>
               <label>
                 <input type="checkbox" checked={cvSent} onChange={(e) => setCvSent(e.target.checked)} />
