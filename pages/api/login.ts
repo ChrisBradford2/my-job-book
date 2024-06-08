@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 import { prisma } from '../../lib/prisma';
-import { useTranslation } from 'react-i18next';
+import i18n from '../../i18n';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'testtest';
 
@@ -12,7 +12,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).end();
   }
 
-  const { t } = useTranslation('common');
+  await i18n.changeLanguage(req.headers['accept-language'] || 'en');
+  const { t } = i18n;
 
   const { email, password } = req.body;
 

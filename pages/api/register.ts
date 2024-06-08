@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../../lib/prisma';
-import { useTranslation } from 'react-i18next';
+import i18n from '../../i18n';
 
 interface RegisterRequest {
   firstName: string;
@@ -13,8 +13,10 @@ interface RegisterRequest {
 }
 
 export default async function register(req: NextApiRequest, res: NextApiResponse) {
+  await i18n.changeLanguage(req.headers['accept-language'] || 'en'); // Change language based on request header or default to 'en'
+  const { t } = i18n;
+
   const { firstName, lastName, email, phoneNumber, password }: RegisterRequest = req.body;
-  const { t } = useTranslation('common');
 
   // Vérifier si l'utilisateur existe déjà
   const existingUser = await prisma.user.findUnique({

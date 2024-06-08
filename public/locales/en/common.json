@@ -90,5 +90,5 @@
   "password_required": "Password is required.",
   "invalid_password_format": "Password must contain at least 8 characters, one lowercase letter, one uppercase letter, one number, and one special character.",
   "user_registered": "User registered successfully.",
-  "login_successful": "Login successful.",
+  "login_successful": "Login successful."
 }

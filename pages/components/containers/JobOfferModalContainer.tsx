@@ -13,9 +13,9 @@ type JobOfferModalContainerProps = {
 };
 
 const JobOfferModalContainer = ({ modalIsOpen, closeModal, formData, handleInputChange, handleSubmit, isDarkMode }: JobOfferModalContainerProps) => {
-  if (!formData) return null;
-
   const { t } = useTranslation('common');
+
+  if (!formData) return null;
 
   const customStyles = {
     content: {

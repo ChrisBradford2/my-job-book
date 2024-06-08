@@ -25,6 +25,7 @@ type JobOfferListItemProps = {
 };
 
 const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, handleEdit, openStatusModal }) => {
+  const { t } = useTranslation("common");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const toggleDialog = () => setIsDialogOpen(!isDialogOpen);
 
@@ -32,8 +33,6 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
 
   const followUp = job.followUpDate ? new Date(job.followUpDate).toLocaleDateString() : 'N/A';
   const needFollowUp = followUp !== 'N/A' && new Date(followUp) < new Date();
-
-  const { t } = useTranslation("common");
 
   return (
     <li className="job-list-item border p-4 rounded-lg shadow-sm bg-white">

@@ -21,7 +21,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     if (locale && i18n.language !== locale) {
       i18n.changeLanguage(locale);
     }
-  }, [router.locale]);
+  }, [router, router.locale]);
 
   return (
     <AuthProvider>

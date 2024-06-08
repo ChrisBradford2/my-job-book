@@ -90,5 +90,5 @@
   "password_required": "Le mot de passe est obligatoire",
   "invalid_password_format": "Le mot de passe doit contenir au moins huit caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial",
   "user_registered": "Utilisateur enregistré avec succès",
-  "login_successful": "Connexion réussie",
+  "login_successful": "Connexion réussie"
 }
