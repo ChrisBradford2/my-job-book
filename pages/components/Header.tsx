@@ -103,17 +103,19 @@ const Header = () => {
             <Link href="/" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
               {t('home')}
             </Link>
-            <Link href="/dashboard" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
-              {t('dashboard')}
-            </Link>
-            <LanguageSwitcher />
             {userIsLogged ? (
-              <button onClick={() => { handleLogout(); setIsSidebarOpen(false); }} className="block w-full text-left text-gray-300 hover:text-white">
-                {t('logout')}
-              </button>
+              <>
+                <Link href="/dashboard" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
+                  {t('dashboard')}
+                </Link>
+                <button onClick={() => { handleLogout(); setIsSidebarOpen(false); }} className="block w-full text-left text-gray-300 hover:text-white">
+                  {t('logout')}
+                </button>
+              </>
             ) : (
               <>
-                <Link href="/login" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
+                <Link href="/login"
+                className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
                   {t('login')}
                 </Link>
                 <Link href="/register" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
@@ -121,6 +123,7 @@ const Header = () => {
                 </Link>
               </>
             )}
+            <LanguageSwitcher />
             <label className="flex items-center cursor-pointer mt-4">
               <FaSun className="text-yellow-500 mr-3" />
               <input type="checkbox" className="sr-only" checked={isDarkTheme} onChange={toggleTheme} />
