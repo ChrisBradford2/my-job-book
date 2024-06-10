@@ -37,7 +37,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           setUser(null);
         }
       } catch (error) {
-        console.error("Invalid token");
         setUserIsLogged(false);
         setUser(null);
       }

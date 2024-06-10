@@ -59,8 +59,6 @@ const StatusModal: React.FC<StatusModalProps> = ({ currentStatus, followUpDate, 
       additionalDataObj.followUpDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
     }
 
-    console.log({ ...additionalDataObj, ...additionalData });
-
     onUpdateStatus(status, { ...additionalDataObj, ...additionalData });
   };
 

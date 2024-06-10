@@ -14,16 +14,18 @@ datasource db {
 }
 
 model User {
-  id          Int        @id @default(autoincrement())
-  firstName   String
-  lastName    String
-  email       String     @unique
-  phoneNumber String
-  password    String
-  role        String     @default("user")
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  JobOffer    JobOffer[]
+  id                     Int       @id @default(autoincrement())
+  firstName              String
+  lastName               String
+  email                  String    @unique
+  phoneNumber            String
+  password               String
+  role                   String    @default("user")
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  resetPasswordToken     String?
+  resetPasswordExpires   DateTime?
+  JobOffer               JobOffer[]
 }
 
 model JobOffer {

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/router';
 import { User } from '@/types/User';
+import { toast } from 'react-toastify';
 
 const AdminPanel = () => {
   const router = useRouter();
@@ -11,8 +12,7 @@ const AdminPanel = () => {
   
   useEffect(() => {
     if (!user || user.role !== 'admin') {
-      console.error("You are not authorized to view this page. Please log in as an admin.");
-      console.info(user); // This should give information about the user or null if not authenticated
+      toast.error("You are not authorized to view this page.");
     } else {
       fetch('/api/admin/users')
         .then(response => response.json())

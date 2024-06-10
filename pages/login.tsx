@@ -7,6 +7,7 @@ import { FaSpinner } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
 import { getI18nProps } from '@/lib/i18n';
 import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
 
 const Login = () => {
   const router = useRouter();
@@ -78,6 +79,9 @@ const Login = () => {
               {loading ? <FaSpinner className="animate-spin inline-block" /> : t('login')}
             </button>
           </form>
+          <Link className="text-sm text-blue-500 hover:underline mt-4 inline-block" href="/forgot-password">
+            {t('forgot_password')}
+          </Link>
         </div>
       </div>
     </>
