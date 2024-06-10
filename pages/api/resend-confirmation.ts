@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       data: { confirmationToken },
     });
 
-    const confirmationLink = `${process.env.BASE_URL}/api/confirmation?token=${confirmationToken}`;
+    const confirmationLink = `${process.env.BASE_URL}/api/confirm?token=${confirmationToken}`;
     const textContent = `Thank you for registering. Click the following link to confirm your email: ${confirmationLink}`;
     const htmlContent = `
       <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333;">
