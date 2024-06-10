@@ -2,8 +2,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/nodemailer';
+import i18n from '../../i18n';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  await i18n.changeLanguage(req.headers['accept-language'] || 'en');
+  const { t } = i18n;
   if (req.method === 'POST') {
     const { email } = req.body;
 
@@ -28,17 +31,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     const textContent = `
-      You requested a password reset. Click the following link to reset your password:
+      ${t('new_password_request')}:
       ${resetLink}
-      If you did not request a password reset, please ignore this email.
-      Thank you, My Job Book
+      ${t('if_you_did_not_request')}
+      ${t('thank_you')}
     `;
 
     // Contenu HTML de l'email
     const htmlContent = `
       <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333;">
         <h2 style="color: #333;">Password Reset Request</h2>
-        <p>You requested a password reset. Click the following link to reset your password:</p>
+        <p>${t('new_password_request')}</p>
         <a
           href="${resetLink}"
           style="
@@ -51,10 +54,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             border-radius: 5px;
           "
         >
-          Reset Password
+          ${t('reset_password')}
         </a>
-        <p>If you did not request a password reset, please ignore this email.</p>
-        <p>Thank you, <br>My Job Book</p>
+        <p>${t('if_you_did_not_request')}</p>
+        <p>${t('thank_you')}</p>
       </div>
     `;
 

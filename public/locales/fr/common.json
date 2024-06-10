@@ -90,5 +90,18 @@
   "password_required": "Le mot de passe est obligatoire",
   "invalid_password_format": "Le mot de passe doit contenir au moins huit caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial",
   "user_registered": "Utilisateur enregistré avec succès",
-  "login_successful": "Connexion réussie"
+  "login_successful": "Connexion réussie",
+  "new_message_from_your_website": "Nouveau message de votre site web",
+  "message_sent_successfully": "Message envoyé avec succès",
+  "message_failed_to_send": "Échec de l'envoi du message, veuillez réessayer",
+  "new_password_request": "Vous avez demandé une réinitialisation de mot de passe. Cliquez sur le lien suivant pour réinitialiser votre mot de passe",
+  "reset_password": "Réinitialiser le mot de passe",
+  "if_you_did_not_request": "Si vous n'avez pas demandé de réinitialisation de mot de passe, veuillez ignorer cet email.",
+  "thank_you": "Merci, My Job Book",
+  "forgot_password": "Mot de passe oublié ?",
+  "account_not_confirmed": "Compte non confirmé. Veuillez vérifier votre email pour un lien de confirmation.",
+  "confirmation_email_sent": "Email de confirmation envoyé !",
+  "failed_to_send_confirmation": "Échec de l'envoi de l'email de confirmation : ",
+  "did_not_receive_confirmation": "Vous n'avez pas reçu d'email de confirmation ?",
+  "resend_confirmation_email": "Renvoyer l'email de confirmation"
 }

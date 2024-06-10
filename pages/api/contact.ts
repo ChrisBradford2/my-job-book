@@ -1,8 +1,11 @@
 // pages/api/contact.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { sendEmail } from '@/lib/nodemailer';
+import i18n from '../../i18n';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  await i18n.changeLanguage(req.headers['accept-language'] || 'en');
+  const { t } = i18n;
   const { name, email, message, captcha } = req.body;
 
   if (process.env.NODE_ENV === 'production') {
@@ -28,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     await sendEmail(
       process.env.EMAIL_USER as string,
-      'New message from your website',
+      t('new_message_from_your_website'),
       `
         Name: ${name}
         Email: ${email}
@@ -42,8 +45,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       `
     );
 
-    res.status(200).json({ message: 'Your message has been sent successfully!' });
+    res.status(200).json({ message: t('message_sent_successfully') });
   } catch (error) {
-    res.status(500).json({ message: 'An error occurred while sending your message' });
+    res.status(500).json({ message: t('message_failed_to_send') });
   }
 }

@@ -1,62 +1,55 @@
 // pages/legal-notice.tsx
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const LegalNotice: React.FC = () => {
+  const { t } = useTranslation('common');
+
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Mentions Légales</h1>
+      <h1 className="text-2xl font-bold mb-4">{t('legal_notice_title')}</h1>
 
       <section className="mb-4">
-        <h2 className="text-xl font-semibold">Éditeur du Site</h2>
+        <h2 className="text-xl font-semibold">{t('site_publisher_title')}</h2>
         <p>
-          <strong>Nom de l'entreprise :</strong> [Nom de votre entreprise]<br />
-          <strong>Adresse :</strong> [Adresse de l'entreprise]<br />
-          <strong>Téléphone :</strong> [Numéro de téléphone de l'entreprise]<br />
-          <strong>Email :</strong> <a href="mailto:[email de contact]">[email de contact]</a><br />
-          <strong>Numéro SIRET :</strong> [Numéro SIRET]<br />
-          <strong>Directeur de la publication :</strong> [Nom du directeur]
+          <strong>{t('company_name')}</strong><br />
+          <strong>{t('company_address')}</strong><br />
+          <strong>{t('company_phone')}</strong><br />
+          <strong>{t('company_email')}</strong><br />
+          <strong>{t('company_siret')}</strong><br />
+          <strong>{t('publication_director')}</strong>
         </p>
       </section>
 
       <section className="mb-4">
-        <h2 className="text-xl font-semibold">Hébergeur du Site</h2>
+        <h2 className="text-xl font-semibold">{t('site_host_title')}</h2>
         <p>
-          <strong>Nom de l'hébergeur :</strong> [Nom de l'hébergeur]<br />
-          <strong>Adresse :</strong> [Adresse de l'hébergeur]<br />
-          <strong>Téléphone :</strong> [Numéro de téléphone de l'hébergeur]<br />
-          <strong>Email :</strong> <a href="mailto:[email de l'hébergeur]">[email de l'hébergeur]</a><br />
+          <strong>{t('host_name')}</strong><br />
+          <strong>{t('host_address')}</strong><br />
+          <strong>{t('host_phone')}</strong><br />
+          <strong>{t('host_email')}</strong><br />
         </p>
       </section>
 
       <section className="mb-4">
-        <h2 className="text-xl font-semibold">Propriété Intellectuelle</h2>
-        <p>
-          Le contenu du site [Nom de votre site] est la propriété exclusive de [Nom de votre entreprise] et est protégé par les lois françaises et internationales relatives à la propriété intellectuelle. Toute reproduction, distribution, modification, adaptation, retransmission ou publication, même partielle, de ces différents éléments est strictement interdite sans l'accord écrit de [Nom de votre entreprise].
-        </p>
+        <h2 className="text-xl font-semibold">{t('intellectual_property_title')}</h2>
+        <p>{t('intellectual_property_text')}</p>
       </section>
 
       <section className="mb-4">
-        <h2 className="text-xl font-semibold">Responsabilité</h2>
-        <p>
-          [Nom de votre entreprise] ne pourra être tenu responsable des dommages directs et indirects causés au matériel de l'utilisateur, lors de l'accès au site [Nom de votre site], et résultant soit de l'utilisation d'un matériel ne répondant pas aux spécifications indiquées, soit de l'apparition d'un bug ou d'une incompatibilité.
-        </p>
-        <p>
-          [Nom de votre entreprise] ne pourra également être tenu responsable des dommages indirects (tels par exemple qu'une perte de marché ou perte d'une chance) consécutifs à l'utilisation du site [Nom de votre site].
-        </p>
+        <h2 className="text-xl font-semibold">{t('responsibility_title')}</h2>
+        <p>{t('responsibility_text_1')}</p>
+        <p>{t('responsibility_text_2')}</p>
       </section>
 
       <section className="mb-4">
-        <h2 className="text-xl font-semibold">Données Personnelles</h2>
-        <p>
-          Conformément aux dispositions de la loi n° 78-17 du 6 janvier 1978 modifiée, l'utilisateur dispose d'un droit d'accès, de modification et de suppression des informations collectées par [Nom de votre entreprise]. Pour exercer ce droit, il reviendra à l'utilisateur d'envoyer un message à l'adresse suivante : <a href="mailto:[email de contact]">[email de contact]</a>.
-        </p>
+        <h2 className="text-xl font-semibold">{t('personal_data_title')}</h2>
+        <p>{t('personal_data_text')}</p>
       </section>
 
       <section className="mb-4">
-        <h2 className="text-xl font-semibold">Litiges</h2>
-        <p>
-          Les présentes conditions du site [Nom de votre site] sont régies par les lois françaises et tout litige ou contentieux qui pourrait naître de l'interprétation ou de l'exécution de celles-ci sera de la compétence exclusive des tribunaux dont dépend le siège social de l'entreprise. La langue de référence, pour le règlement de contentieux éventuels, est le français.
-        </p>
+        <h2 className="text-xl font-semibold">{t('litigation_title')}</h2>
+        <p>{t('litigation_text')}</p>
       </section>
     </div>
   );

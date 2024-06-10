@@ -90,5 +90,18 @@
   "password_required": "Password is required.",
   "invalid_password_format": "Password must contain at least 8 characters, one lowercase letter, one uppercase letter, one number, and one special character.",
   "user_registered": "User registered successfully.",
-  "login_successful": "Login successful."
+  "login_successful": "Login successful.",
+  "new_message_from_your_website": "New message from your website",
+  "message_sent_successfully": "Your message has been sent successfully.",
+  "message_failed_to_send": "Your message failed to send. Please try again.",
+  "new_password_request": "You requested a password reset. Click the following link to reset your password",
+  "reset_password": "Reset Password",
+  "if_you_did_not_request": "If you did not request a password reset, please ignore this email.",
+  "thank_you": "Thank you, My Job Book",
+  "forgot_password": "Forgot password?",
+  "account_not_confirmed": "Account not confirmed. Please check your email for a confirmation link.",
+  "confirmation_email_sent": "Confirmation email sent!",
+  "failed_to_send_confirmation": "Failed to send confirmation email: ",
+  "did_not_receive_confirmation": "Didn't receive a confirmation email?",
+  "resend_confirmation_email": "Resend confirmation email"
 }

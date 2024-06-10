@@ -1,3 +1,4 @@
+// pages/login.tsx
 import Head from 'next/head';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
@@ -9,7 +10,7 @@ import { getI18nProps } from '@/lib/i18n';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 
-const Login = () => {
+const Login: React.FC = () => {
   const router = useRouter();
   const { t } = useTranslation('common');
   const { setUserIsLogged } = useAuth();
@@ -22,44 +23,53 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    const res = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (res.ok) {
-      setUserIsLogged(true);
+      if (res.ok) {
+        setUserIsLogged(true);
+        setLoading(false);
+        router.push('/dashboard');
+      } else if (res.status === 403) {
+        setLoading(false);
+        toast.error(t('account_not_confirmed'));
+        setResendConfirmation(true);
+      } else {
+        const error = await res.json();
+        setLoading(false);
+        toast.error(error.message);
+      }
+    } catch (error) {
       setLoading(false);
-      router.push('/dashboard');
-    } else if (res.status === 403) {
-      setLoading(false);
-      toast.error('Account not confirmed. Please check your email for a confirmation link.');
-      setResendConfirmation(true);
-    } else {
-      const error = await res.json();
-      setLoading(false);
-      toast.error(error.message);
+      toast.error('An error occurred. Please try again.');
     }
   };
 
   const handleResendConfirmation = async () => {
-    const res = await fetch('/api/resend-confirmation', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    });
+    try {
+      const res = await fetch('/api/resend-confirmation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
 
-    if (res.ok) {
-      toast.success('Confirmation email sent!');
-    } else {
-      const error = await res.json();
-      toast.error('Failed to send confirmation email: ' + error.message);
+      if (res.ok) {
+        toast.success(t('confirmation_email_sent'));
+      } else {
+        const error = await res.json();
+        toast.error(t('failed_to_send_confirmation') + error.message);
+      }
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
     }
   };
 
@@ -106,12 +116,12 @@ const Login = () => {
           </Link>
           {resendConfirmation && (
             <div className="mt-4 text-center">
-              <p className="text-gray-600">Didn't receive a confirmation email?</p>
+              <p className="text-gray-600">{t('did_not_receive_confirmation')}</p>
               <button
                 onClick={handleResendConfirmation}
                 className="text-indigo-600 hover:underline"
               >
-                Resend confirmation email
+                {t('resend_confirmation_email')}
               </button>
             </div>
           )}
