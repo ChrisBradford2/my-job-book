@@ -25,6 +25,8 @@ model User {
   updatedAt              DateTime  @updatedAt
   resetPasswordToken     String?
   resetPasswordExpires   DateTime?
+  confirmationToken      String?
+  isConfirmed            Boolean   @default(false)
   JobOffer               JobOffer[]
 }
 

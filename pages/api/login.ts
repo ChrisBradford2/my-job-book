@@ -25,6 +25,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(401).json({ message: t('invalid_credentials') });
   }
 
+  if (!user.isConfirmed) {
+    return res.status(403).json({ message: t('account_not_confirmed') });
+  }
+
   const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '2h' });
 
   res.setHeader('Set-Cookie', serialize('auth', token, {

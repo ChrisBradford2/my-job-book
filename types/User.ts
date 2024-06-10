@@ -8,5 +8,6 @@ export interface User {
   phoneNumber: string;
   password: string;
   role: 'user' | 'admin';
+  isConfirmed: boolean;
   JobOffer: JobOffer[];
 }

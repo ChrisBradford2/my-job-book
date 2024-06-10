@@ -16,6 +16,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resendConfirmation, setResendConfirmation] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,10 +35,31 @@ const Login = () => {
       setUserIsLogged(true);
       setLoading(false);
       router.push('/dashboard');
+    } else if (res.status === 403) {
+      setLoading(false);
+      toast.error('Account not confirmed. Please check your email for a confirmation link.');
+      setResendConfirmation(true);
     } else {
       const error = await res.json();
       setLoading(false);
       toast.error(error.message);
+    }
+  };
+
+  const handleResendConfirmation = async () => {
+    const res = await fetch('/api/resend-confirmation', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (res.ok) {
+      toast.success('Confirmation email sent!');
+    } else {
+      const error = await res.json();
+      toast.error('Failed to send confirmation email: ' + error.message);
     }
   };
 
@@ -82,6 +104,17 @@ const Login = () => {
           <Link className="text-sm text-blue-500 hover:underline mt-4 inline-block" href="/forgot-password">
             {t('forgot_password')}
           </Link>
+          {resendConfirmation && (
+            <div className="mt-4 text-center">
+              <p className="text-gray-600">Didn't receive a confirmation email?</p>
+              <button
+                onClick={handleResendConfirmation}
+                className="text-indigo-600 hover:underline"
+              >
+                Resend confirmation email
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>
