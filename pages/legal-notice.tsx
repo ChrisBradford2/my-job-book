@@ -1,5 +1,5 @@
 // pages/legal-notice.tsx
-import { Head } from 'next/document';
+import Head from 'next/head';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
