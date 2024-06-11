@@ -1,4 +1,5 @@
 // pages/privacy-policy.tsx
+import Head from 'next/head';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -7,6 +8,10 @@ const PrivacyPolicy: React.FC = () => {
 
   return (
     <div className="container mx-auto p-6">
+      <Head>
+        <title>{t('privacy_policy_title')}</title>
+        <meta name="description" content={t('privacy_policy_description')} />
+      </Head>
       <h1 className="text-2xl font-bold mb-4">{t('privacy_policy_title')}</h1>
 
       <section className="mb-4">

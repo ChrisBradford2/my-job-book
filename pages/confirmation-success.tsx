@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Confetti from 'react-confetti';
+import Head from 'next/head';
 
 const ConfirmationSuccess = () => {
   const router = useRouter();
@@ -30,6 +31,10 @@ const ConfirmationSuccess = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <Head>
+        <title>Confirmation Success</title>
+        <meta name="description" content="Confirmation success" />
+      </Head>
       <Confetti 
         width={dimensions.width}
         height={dimensions.height}
