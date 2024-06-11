@@ -103,5 +103,15 @@
   "confirmation_email_sent": "Confirmation email sent!",
   "failed_to_send_confirmation": "Failed to send confirmation email: ",
   "did_not_receive_confirmation": "Didn't receive a confirmation email?",
-  "resend_confirmation_email": "Resend confirmation email"
+  "resend_confirmation_email": "Resend confirmation email",
+  "admin": "Admin",
+  "admin_dashboard": "Admin Dashboard",
+  "admin_dashboard_description": "Manage users and job offers.",
+  "role": "Role",
+  "job_offers": "Job Offers",
+  "at": "at",
+  "job_title": "Job Title",
+  "job_link": "Job Link",
+  "recruiter_email": "Recruiter Email",
+  "update_job_offer": "Update Job Offer"
 }

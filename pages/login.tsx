@@ -44,6 +44,9 @@ const Login: React.FC = () => {
         setLoading(false);
         toast.error(t('account_not_confirmed'));
         setResendConfirmation(true);
+      } else if (res.status === 401) {
+        setLoading(false);
+        toast.error(t('invalid_credentials'));
       } else {
         const error = await res.json();
         setLoading(false);

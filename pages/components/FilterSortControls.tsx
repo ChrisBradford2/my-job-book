@@ -21,7 +21,7 @@ const FilterSortControls: React.FC<FilterSortControlsProps> = ({ filterStatus, s
           onChange={(e) => setFilterStatus(e.target.value)}
           className="p-2 border rounded w-full sm:w-auto"
         >
-          <option value="">All</option>
+          <option value="">{t('all')}</option>
           <option value="Ready to send">{t('ready_to_send')}</option>
           <option value="Application sent">{t('application_sent')}</option>
           <option value="Follow-up sent">{t('follow_up_sent')}</option>

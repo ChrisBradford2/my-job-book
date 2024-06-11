@@ -103,5 +103,15 @@
   "confirmation_email_sent": "Email de confirmation envoyé !",
   "failed_to_send_confirmation": "Échec de l'envoi de l'email de confirmation : ",
   "did_not_receive_confirmation": "Vous n'avez pas reçu d'email de confirmation ?",
-  "resend_confirmation_email": "Renvoyer l'email de confirmation"
+  "resend_confirmation_email": "Renvoyer l'email de confirmation",
+  "admin": "Admin",
+  "admin_dashboard": "Tableau de bord de l'admin",
+  "admin_dashboard_description": "Gérez les utilisateurs et les offres d'emploi.",
+  "role": "Rôle",
+  "job_offers": "Offres d'emploi",
+  "at": "à",
+  "job_title": "Titre du poste",
+  "job_link": "Lien de l'offre d'emploi",
+  "recruiter_email": "Email du recruteur",
+  "update_job_offer": "Mettre à jour l'offre d'emploi"
 }
