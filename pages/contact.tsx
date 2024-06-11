@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { toast } from 'react-toastify';
+import Head from 'next/head';
 
 const Contact = () => {
   const router = useRouter();
@@ -47,6 +48,10 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800">
+      <Head>
+        <title>Contact Us</title>
+        <meta name="description" content="Contact us" />
+      </Head>
       <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center dark:text-white">Contact Us</h1>
         <form onSubmit={handleSubmit}>

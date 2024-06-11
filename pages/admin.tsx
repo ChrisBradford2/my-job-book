@@ -4,6 +4,7 @@ import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/router';
 import { User } from '@/types/User';
 import { toast } from 'react-toastify';
+import Head from 'next/head';
 
 const AdminPanel = () => {
   const router = useRouter();
@@ -31,6 +32,10 @@ const AdminPanel = () => {
 
   return (
     <main className="container mx-auto p-4">
+      <Head>
+        <title>Admin Panel</title>
+        <meta name="description" content="Admin panel" />
+      </Head>
       <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {users.map(user => (

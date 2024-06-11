@@ -8,6 +8,8 @@ import { FaSpinner } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
 import { getI18nProps } from '@/lib/i18n';
 import { useTranslation } from 'next-i18next';
+import { usePasswordToggle } from '@/utils/passwordToggle';
+import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import Link from 'next/link';
 
 const Login: React.FC = () => {
@@ -18,6 +20,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [resendConfirmation, setResendConfirmation] = useState(false);
+  const [showPassword, toggleShowPassword] = usePasswordToggle();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,16 +96,23 @@ const Login: React.FC = () => {
                 required
               />
             </div>
-            <div className="mb-6">
+            <div className="mb-6 relative">
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">{t('password')}</label>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-700 sm:text-sm"
+                className="mt-1 block w-full pl-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-700 sm:text-sm relative pr-10"
                 required
               />
+              <button
+                type="button"
+                onClick={toggleShowPassword}
+                className="text-sm text-gray-600 hover:underline absolute right-4 bottom-3"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
             </div>
             <button
               type="submit"

@@ -1,4 +1,5 @@
 // pages/legal-notice.tsx
+import Head from 'next/head';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -7,6 +8,10 @@ const LegalNotice: React.FC = () => {
 
   return (
     <div className="container mx-auto p-6">
+      <Head>
+        <title>{t('legal_notice_title')}</title>
+        <meta name="description" content={t('legal_notice_description')} />
+      </Head>
       <h1 className="text-2xl font-bold mb-4">{t('legal_notice_title')}</h1>
 
       <section className="mb-4">
