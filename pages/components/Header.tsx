@@ -8,7 +8,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from 'next-i18next';
 
 const Header = () => {
-  const { userIsLogged, setUserIsLogged } = useAuth();
+  const { userIsLogged, setUserIsLogged, isAdmin } = useAuth();
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -45,7 +45,12 @@ const Header = () => {
         <nav className="hidden md:flex items-center space-x-4">
           {userIsLogged ? (
             <>
-              <Link href="/dashboard" className="hover:text-gray-300">
+              {isAdmin && (
+                <Link href="/admin" className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-700">
+                  {t('admin')}
+                </Link>
+              )}
+              <Link href="/dashboard" className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-700">
                 {t('dashboard')}
               </Link>
               <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded hover:bg-red-700">
