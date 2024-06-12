@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import  { FaSpinner, FaCheck } from 'react-icons/fa6';
 import { FaTimes } from 'react-icons/fa';
@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { GetServerSideProps } from 'next';
 import { getI18nProps } from '@/lib/i18n';
 import { useTranslation } from 'next-i18next';
+import { RegisterContext } from '@/context/registerContext';
 
 const Register = () => {
   const router = useRouter();
@@ -24,6 +25,8 @@ const Register = () => {
   const [hasUpperCase, setHasUpperCase] = useState(false);
   const [hasNumber, setHasNumber] = useState(false);
   const [hasSpecialChar, setHasSpecialChar] = useState(false);
+
+  const { setShowSuccessToast } = useContext(RegisterContext);
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -54,10 +57,15 @@ const Register = () => {
     }
 
     const phoneRegex = /^\+[1-9]\d{1,14}$/;
+    const phoneRegexCorrect = /^0\d{9}$/;
     if (!phoneRegex.test(phoneNumber)) {
-      toast.error(t('invalid_phone_number'));
-      setLoading(false);
-      return;
+      if (phoneRegexCorrect.test(phoneNumber)) {
+        setPhoneNumber(`+33${phoneNumber.slice(1)}`);
+      } else {
+        toast.error(t('invalid_phone_number_format'));
+        setLoading(false);
+        return;
+      }
     }
 
     if (password !== confirmPassword) {
@@ -85,6 +93,7 @@ const Register = () => {
           body: JSON.stringify({ to: phoneNumber, message: smsMessage }),
         });
         router.push('/login');
+        setShowSuccessToast(true);
       } else {
         const error = await res.json();
         toast.error(error.message);

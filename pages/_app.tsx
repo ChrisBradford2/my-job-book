@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import i18n from '@/i18n';
+import { RegisterProvider } from '@/context/registerContext';
 
 Modal.setAppElement('#__next');
 
@@ -25,21 +26,23 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <AuthProvider>
-      <Header />
-      <Component {...pageProps} />
-      <Footer />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+      <RegisterProvider>
+        <Header />
+        <Component {...pageProps} />
+        <Footer />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
+      </RegisterProvider>
     </AuthProvider>
   );
 };

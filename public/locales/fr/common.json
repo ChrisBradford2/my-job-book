@@ -113,5 +113,7 @@
   "job_title": "Titre du poste",
   "job_link": "Lien de l'offre d'emploi",
   "recruiter_email": "Email du recruteur",
-  "update_job_offer": "Mettre à jour l'offre d'emploi"
+  "update_job_offer": "Mettre à jour l'offre d'emploi",
+  "today": "Aujourd'hui",
+  "select_date": "Sélectionner une date"
 }

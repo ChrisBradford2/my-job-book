@@ -1,4 +1,3 @@
-// context/authContext.tsx
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
@@ -28,25 +27,41 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAdmin, setIsAdmin] = useState(false); // Add isAdmin state
 
   useEffect(() => {
-    const token = Cookies.get('auth');
-    if (token) {
-      try {
-        const decoded = jwt.decode(token) as User;
-        if (decoded) {
-          setUserIsLogged(true);
-          setUser(decoded);
-          setIsAdmin(decoded.role === 'admin')
-        } else {
-          setUserIsLogged(false);
+    const fetchUser = async () => {
+      const token = Cookies.get('auth');
+      if (token) {
+        try {
+          const decoded = jwt.decode(token) as User;
+          if (decoded) {
+            const response = await fetch(`/api/profile?userId=${decoded.id}`, {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            });
+            if (response.ok) {
+              const data = await response.json();
+              setUser(data);
+              setUserIsLogged(true);
+              setIsAdmin(decoded.role === 'admin')
+            } else {
+              setUser(null);
+              setUserIsLogged(false);
+              setIsAdmin(false);
+            }
+          } else {
+            setUser(null);
+            setUserIsLogged(false);
+            setIsAdmin(false);
+          }
+        } catch (error) {
           setUser(null);
+          setUserIsLogged(false);
           setIsAdmin(false);
         }
-      } catch (error) {
-        setUserIsLogged(false);
-        setUser(null);
-        setIsAdmin(false);
       }
-    }
+    };
+
+    fetchUser();
   }, []);
 
   return (

@@ -6,9 +6,11 @@ import { useRouter } from 'next/router';
 import { FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from 'next-i18next';
+import ProfileDropdown from './ProfileDropdown';
+import Image from 'next/image';
 
 const Header = () => {
-  const { userIsLogged, setUserIsLogged, isAdmin } = useAuth();
+  const { user, userIsLogged, setUserIsLogged, isAdmin } = useAuth();
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -53,9 +55,7 @@ const Header = () => {
               <Link href="/dashboard" className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-700">
                 {t('dashboard')}
               </Link>
-              <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded hover:bg-red-700">
-                {t('logout')}
-              </button>
+              <ProfileDropdown />
             </>
           ) : (
             <>
@@ -105,6 +105,21 @@ const Header = () => {
             </button>
           </div>
           <nav className="p-4 space-y-4">
+            {user && (
+              <>
+                <Link href="/profile" className="flex items-center space-x-2">
+                  <Image
+                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.firstName)}+${encodeURIComponent(user.lastName)}`}
+                    alt={user.firstName + ' ' + user.lastName}
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
+                  <span>{user.firstName + ' ' + user.lastName}</span>
+                </Link>
+                <hr className="border-gray-700" />
+              </>
+            )}
             <Link href="/" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
               {t('home')}
             </Link>
@@ -119,8 +134,7 @@ const Header = () => {
               </>
             ) : (
               <>
-                <Link href="/login"
-                className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
+                <Link href="/login" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
                   {t('login')}
                 </Link>
                 <Link href="/register" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
@@ -128,6 +142,7 @@ const Header = () => {
                 </Link>
               </>
             )}
+            <hr className="border-gray-700" />
             <LanguageSwitcher />
             <label className="flex items-center cursor-pointer mt-4">
               <FaSun className="text-yellow-500 mr-3" />

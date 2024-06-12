@@ -137,3 +137,41 @@ main {
   font-size: 0.875rem;
   font-weight: 500;
 }
+
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.profile-dropdown-content a,
+.profile-dropdown-content button {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  background-color: white;
+  border: none;
+  width: 100%;
+}
+
+.profile-dropdown-content a:hover,
+.profile-dropdown-content button:hover {
+  background-color: #f1f1f1;
+}
+
+.profile-dropdown:hover .profile-dropdown-content {
+  display: block;
+}
