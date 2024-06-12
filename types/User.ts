@@ -10,4 +10,6 @@ export interface User {
   role: 'user' | 'admin';
   isConfirmed: boolean;
   JobOffer: JobOffer[];
+  createdAt: Date;
+  updatedAt: Date;
 }

@@ -1,6 +1,6 @@
 // pages/login.tsx
 import Head from 'next/head';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/context/authContext';
 import { toast } from 'react-toastify';
@@ -11,6 +11,7 @@ import { useTranslation } from 'next-i18next';
 import { usePasswordToggle } from '@/utils/passwordToggle';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import Link from 'next/link';
+import { RegisterContext } from '@/context/registerContext';
 
 const Login: React.FC = () => {
   const router = useRouter();
@@ -21,6 +22,15 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [resendConfirmation, setResendConfirmation] = useState(false);
   const [showPassword, toggleShowPassword] = usePasswordToggle();
+
+  const { showSuccessToast, setShowSuccessToast } = useContext(RegisterContext);
+
+  useEffect(() => {
+    if (showSuccessToast) {
+      toast.success("Inscription réussie ! Veuillez vérifier votre adresse mail avant d'accéder à votre compte");
+      setShowSuccessToast(false);
+    }
+  }, [showSuccessToast, setShowSuccessToast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

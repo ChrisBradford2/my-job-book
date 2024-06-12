@@ -113,5 +113,11 @@
   "job_title": "Job Title",
   "job_link": "Job Link",
   "recruiter_email": "Recruiter Email",
-  "update_job_offer": "Update Job Offer"
+  "update_job_offer": "Update Job Offer",
+  "today": "Today",
+  "select_date": "Select a date",
+  "contact": "Contact",
+  "privacy_policy": "Privacy Policy",
+  "terms_of_service": "Terms of Service",
+  "legal_notice": "Legal Notice"
 }
