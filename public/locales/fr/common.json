@@ -115,5 +115,9 @@
   "recruiter_email": "Email du recruteur",
   "update_job_offer": "Mettre à jour l'offre d'emploi",
   "today": "Aujourd'hui",
-  "select_date": "Sélectionner une date"
+  "select_date": "Sélectionner une date",
+  "contact": "Contact",
+  "privacy_policy": "Politique de confidentialité",
+  "terms_of_service": "Conditions d'utilisation",
+  "legal_notice": "Mentions légales"
 }
