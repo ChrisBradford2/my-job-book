@@ -121,6 +121,7 @@ const Header = () => {
                     width={40}
                     height={40}
                     className="rounded-full"
+                    priority
                   />
                   <span>{user.firstName + ' ' + user.lastName}</span>
                 </Link>

@@ -7,6 +7,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     const user = await prisma.user.findUnique({
       where: { id: req.user.userId },
+      include: { JobOffer: true }, // Inclure les offres d'emploi associées
     });
 
     if (!user) {
