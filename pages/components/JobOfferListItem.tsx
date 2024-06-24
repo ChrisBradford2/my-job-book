@@ -1,5 +1,5 @@
 // components/JobOfferRow.tsx
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Transition, TransitionChild } from '@headlessui/react';
 import Link from 'next/link';
 import { Fragment, useState } from 'react';
 import { FaEdit, FaEllipsisV, FaTrash } from 'react-icons/fa';
@@ -133,7 +133,7 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
       <Transition appear show={isDialogOpen} as={Fragment}>
         <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={toggleDialog}>
           <div className="flex items-end justify-center min-h-screen text-center sm:block sm:p-0">
-            <Transition.Child
+            <TransitionChild
               enter="ease-out duration-300"
               enterFrom="opacity-0"
               enterTo="opacity-100"
@@ -144,13 +144,13 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
               <div className="fixed inset-0 transition-opacity" aria-hidden="true" onClick={toggleDialog}>
                 <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
               </div>
-            </Transition.Child>
+            </TransitionChild>
 
             <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
               &#8203;
             </span>
 
-            <Transition.Child
+            <TransitionChild
               enter="ease-out duration-300"
               enterFrom="opacity-0 translate-y-full"
               enterTo="opacity-100 translate-y-0"
@@ -202,7 +202,7 @@ const JobOfferListItem: React.FC<JobOfferListItemProps> = ({ job, handleDelete, 
                   </button>
                 </div>
               </div>
-            </Transition.Child>
+            </TransitionChild>
           </div>
         </Dialog>
       </Transition>

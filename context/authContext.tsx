@@ -9,12 +9,14 @@ const AuthContext = createContext<{
   userIsLogged: boolean;
   setUserIsLogged: (logged: boolean) => void;
   isAdmin: boolean;
+  isLoading: boolean;
 }>({
   user: null,
   setUser: () => {},
   userIsLogged: false,
   setUserIsLogged: () => {},
-  isAdmin: false
+  isAdmin: false,
+  isLoading: true,
 });
 
 type AuthProviderProps = {
@@ -24,7 +26,8 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userIsLogged, setUserIsLogged] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false); // Add isAdmin state
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -42,7 +45,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
               const data = await response.json();
               setUser(data);
               setUserIsLogged(true);
-              setIsAdmin(decoded.role === 'admin')
+              setIsAdmin(decoded.role === 'admin');
             } else {
               setUser(null);
               setUserIsLogged(false);
@@ -59,13 +62,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           setIsAdmin(false);
         }
       }
+      setIsLoading(false);
     };
 
     fetchUser();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, userIsLogged, setUserIsLogged, isAdmin }}>
+    <AuthContext.Provider value={{ user, setUser, userIsLogged, setUserIsLogged, isAdmin, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

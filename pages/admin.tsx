@@ -6,23 +6,31 @@ import { User } from '@/types/User';
 import { toast } from 'react-toastify';
 import Head from 'next/head';
 import { useTranslation } from 'react-i18next';
+import Loading from './components/Loading';
 
 const AdminPanel = () => {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const { t } = useTranslation('common');
   
   useEffect(() => {
-    if (!user || user.role !== 'admin') {
-      toast.error("You are not authorized to view this page.");
-    } else {
-      fetch('/api/admin/users')
-        .then(response => response.json())
-        .then(data => setUsers(data))
-        .catch(error => console.error("Failed to fetch users", error));
+    if (!isLoading) {
+      if (!user || user.role !== 'admin') {
+        toast.error("You are not authorized to view this page.");
+        router.push('/');
+      } else {
+        fetch('/api/admin/users')
+          .then(response => response.json())
+          .then(data => setUsers(data))
+          .catch(error => console.error("Failed to fetch users", error));
+      }
     }
-  }, [user, router]);
+  }, [user, isLoading, router]);
+
+  if (isLoading) {
+    return <Loading progress={0} />;
+  }
 
   if (!user || user.role !== 'admin') {
     return (

@@ -1,4 +1,3 @@
-// components/DashboardContent.tsx
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 import Loading from './Loading';
@@ -10,9 +9,10 @@ import StatusModalContainer from './containers/StatusModalContainer';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'next-i18next';
 import { JobOffer } from '@/types/JobOffer';
+import { useAuth } from '@/context/authContext';
 
 const DashboardContent = () => {
-  const { jobOffers, isLoading, loadingProgress, addOrUpdateJobOffer, removeJobOffer, updateJobStatus } = useJobOffers();
+  const { jobOffers, isLoading: jobOffersLoading, loadingProgress, addOrUpdateJobOffer, removeJobOffer, updateJobStatus } = useJobOffers();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [statusModalIsOpen, setStatusModalIsOpen] = useState(false);
   const [formData, setFormData] = useState<JobOffer>({
@@ -34,6 +34,7 @@ const DashboardContent = () => {
 
   const { t } = useTranslation('common');
   const isDarkMode = Cookies.get('theme') === 'dark';
+  const { isLoading: authLoading } = useAuth();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -109,7 +110,7 @@ const DashboardContent = () => {
       return 0;
     });
 
-  if (isLoading) {
+  if (authLoading || jobOffersLoading) {
     return <Loading progress={loadingProgress} />;
   }
 

@@ -10,7 +10,7 @@ import ProfileDropdown from './ProfileDropdown';
 import Image from 'next/image';
 
 const Header = () => {
-  const { user, userIsLogged, setUserIsLogged, isAdmin } = useAuth();
+  const { user, userIsLogged, setUserIsLogged, isAdmin, isLoading } = useAuth();
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -45,27 +45,34 @@ const Header = () => {
           My Job Book
         </Link>
         <nav className="hidden md:flex items-center space-x-4">
-          {userIsLogged ? (
+          {isLoading ? (
             <>
-              {isAdmin && (
-                <Link href="/admin" className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-700">
-                  {t('admin')}
-                </Link>
-              )}
-              <Link href="/dashboard" className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-700">
-                {t('dashboard')}
-              </Link>
-              <ProfileDropdown />
+              <div className="bg-gray-700 px-3 py-1 rounded animate-pulse" style={{ width: '80px', height: '34px' }}></div>
+              <div className="bg-gray-700 px-3 py-1 rounded animate-pulse" style={{ width: '80px', height: '34px' }}></div>
             </>
           ) : (
-            <>
-              <Link href="/login" className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-700">
-                {t('login')}
-              </Link>
-              <Link href="/register" className="bg-green-500 px-3 py-1 rounded hover:bg-green-700">
-                {t('register')}
-              </Link>
-            </>
+            userIsLogged ? (
+              <>
+                {isAdmin && (
+                  <Link href="/admin" className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-700">
+                    {t('admin')}
+                  </Link>
+                )}
+                <Link href="/dashboard" className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-700">
+                  {t('dashboard')}
+                </Link>
+                <ProfileDropdown />
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-700">
+                  {t('login')}
+                </Link>
+                <Link href="/register" className="bg-green-500 px-3 py-1 rounded hover:bg-green-700">
+                  {t('register')}
+                </Link>
+              </>
+            )
           )}
           <LanguageSwitcher />
           <label className="flex items-center cursor-pointer">
