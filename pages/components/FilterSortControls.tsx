@@ -11,7 +11,7 @@ interface FilterSortControlsProps {
   setSortOrder: (order: 'asc' | 'desc') => void;
 }
 
-const FilterSortControls: React.FC<FilterSortControlsProps> = ({ jobOffers, filterStatus, setFilterStatus, sortField, setSortField, sortOrder, setSortOrder }) => {
+const FilterSortControls: React.FC<FilterSortControlsProps> = ({ jobOffers = [], filterStatus, setFilterStatus, sortField, setSortField, sortOrder, setSortOrder }) => {
   const { t } = useTranslation('common');
 
   // Calculate the counts for each status
