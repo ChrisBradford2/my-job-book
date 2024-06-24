@@ -124,6 +124,7 @@ const DashboardContent = () => {
         setSortField={setSortField}
         sortOrder={sortOrder}
         setSortOrder={setSortOrder}
+        jobOffers={jobOffers}
       />
       <div className='flex justify-between items-center mb-4'>
         <p className="text-lg">
