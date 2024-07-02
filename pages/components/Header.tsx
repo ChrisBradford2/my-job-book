@@ -39,26 +39,26 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-gray-800 text-white shadow-md">
+    <header className="bg-gray-800 text-white shadow-md" role="banner">
       <div className="container mx-auto p-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold">
+        <Link href="/" className="text-2xl font-bold" aria-label="My Job Book - Home">
           My Job Book
         </Link>
-        <nav className="hidden md:flex items-center space-x-4">
+        <nav className="hidden md:flex items-center space-x-4" aria-label="Main Navigation">
           {isLoading ? (
             <>
-              <div className="bg-gray-700 px-3 py-1 rounded animate-pulse" style={{ width: '80px', height: '34px' }}></div>
-              <div className="bg-gray-700 px-3 py-1 rounded animate-pulse" style={{ width: '80px', height: '34px' }}></div>
+              <div className="bg-gray-700 px-3 py-1 rounded animate-pulse" style={{ width: '80px', height: '34px' }} aria-hidden="true"></div>
+              <div className="bg-gray-700 px-3 py-1 rounded animate-pulse" style={{ width: '80px', height: '34px' }} aria-hidden="true"></div>
             </>
           ) : (
             userIsLogged ? (
               <>
                 {isAdmin && (
-                  <Link href="/admin" className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-700">
+                  <Link href="/admin" className="bg-yellow-600 px-3 py-1 rounded hover:bg-yellow-800">
                     {t('admin')}
                   </Link>
                 )}
-                <Link href="/dashboard" className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-700">
+                <Link href="/dashboard" className="bg-blue-700 px-3 py-1 rounded hover:bg-blue-900">
                   {t('dashboard')}
                 </Link>
                 <Link href="/profile" className="flex items-center space-x-2">
@@ -76,19 +76,19 @@ const Header = () => {
               </>
             ) : (
               <>
-                <Link href="/login" className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-700">
+                <Link href="/login" className="bg-blue-700 px-3 py-1 rounded hover:bg-blue-900">
                   {t('login')}
                 </Link>
-                <Link href="/register" className="bg-green-500 px-3 py-1 rounded hover:bg-green-700">
+                <Link href="/register" className="bg-green-700 px-3 py-1 rounded hover:bg-green-900">
                   {t('register')}
                 </Link>
               </>
             )
           )}
           <LanguageSwitcher />
-          <label className="flex items-center cursor-pointer">
-            <FaSun className="text-yellow-500 mr-3" />
-            <input type="checkbox" className="sr-only" checked={isDarkTheme} onChange={toggleTheme} />
+          <label className="flex items-center cursor-pointer" aria-label="Toggle theme">
+            <FaSun className="text-yellow-500 mr-3" aria-hidden="true" />
+            <input type="checkbox" className="sr-only" checked={isDarkTheme} onChange={toggleTheme} aria-checked={isDarkTheme} />
             <div className="relative">
               <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
               <div
@@ -97,12 +97,17 @@ const Header = () => {
                 }`}
               ></div>
             </div>
-            <FaMoon className="text-gray-400 ml-3" />
+            <FaMoon className="text-gray-400 ml-3" aria-hidden="true" />
           </label>
         </nav>
         <div className="md:hidden flex items-center">
-          <button onClick={() => setIsSidebarOpen(true)} className="text-gray-300 hover:text-white focus:outline-none">
-            <FaBars className="h-6 w-6" />
+          <button 
+            onClick={() => setIsSidebarOpen(true)} 
+            className="text-gray-300 hover:text-white focus:outline-none" 
+            aria-label="Open menu"
+            aria-expanded={isSidebarOpen}
+          >
+            <FaBars className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -110,19 +115,23 @@ const Header = () => {
         <div
           className={`fixed inset-0 bg-black transition-opacity duration-300 ${isSidebarOpen ? 'opacity-50' : 'opacity-0'}`}
           onClick={() => setIsSidebarOpen(false)}
+          aria-hidden={isSidebarOpen ? "false" : "true"}
         ></div>
         <div
           className={`fixed right-0 top-0 bg-gray-800 w-64 h-full shadow-xl transition-transform transform ${
             isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
           } duration-300`}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="sidebarTitle"
         >
           <div className="flex items-center justify-between p-4 border-b border-gray-700">
-            <h2 className="text-2xl font-bold">Menu</h2>
-            <button onClick={() => setIsSidebarOpen(false)} className="text-gray-300 hover:text-white focus:outline-none">
-              <FaTimes className="h-6 w-6" />
+            <h2 id="sidebarTitle" className="text-2xl font-bold">Menu</h2>
+            <button onClick={() => setIsSidebarOpen(false)} className="text-gray-300 hover:text-white focus:outline-none" aria-label="Close menu">
+              <FaTimes className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
-          <nav className="p-4 space-y-4">
+          <nav className="p-4 space-y-4" aria-label="Sidebar Navigation">
             {user && (
               <>
                 <Link href="/profile" className="flex items-center space-x-2">
@@ -139,33 +148,36 @@ const Header = () => {
                 <hr className="border-gray-700" />
               </>
             )}
-            <Link href="/" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
+            <Link href="/" className="block text-gray-100 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
               {t('home')}
             </Link>
             {userIsLogged ? (
               <>
-                <Link href="/dashboard" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
+                <Link href="/dashboard" className="block text-gray-100 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
                   {t('dashboard')}
                 </Link>
-                <button onClick={() => { handleLogout(); setIsSidebarOpen(false); }} className="block w-full text-left text-gray-300 hover:text-white">
+                <button 
+                  onClick={() => { handleLogout(); setIsSidebarOpen(false); }} 
+                  className="block w-full text-left text-gray-100 hover:text-white"
+                >
                   {t('logout')}
                 </button>
               </>
             ) : (
               <>
-                <Link href="/login" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
+                <Link href="/login" className="block text-gray-100 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
                   {t('login')}
                 </Link>
-                <Link href="/register" className="block text-gray-300 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
+                <Link href="/register" className="block text-gray-100 hover:text-white" onClick={() => setIsSidebarOpen(false)}>
                   {t('register')}
                 </Link>
               </>
             )}
             <hr className="border-gray-700" />
             <LanguageSwitcher />
-            <label className="flex items-center cursor-pointer mt-4">
-              <FaSun className="text-yellow-500 mr-3" />
-              <input type="checkbox" className="sr-only" checked={isDarkTheme} onChange={toggleTheme} />
+            <label className="flex items-center cursor-pointer mt-4" aria-label="Toggle theme">
+              <FaSun className="text-yellow-500 mr-3" aria-hidden="true" />
+              <input type="checkbox" className="sr-only" checked={isDarkTheme} onChange={toggleTheme} aria-checked={isDarkTheme} />
               <div className="relative">
                 <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
                 <div
@@ -174,7 +186,7 @@ const Header = () => {
                   }`}
                 ></div>
               </div>
-              <FaMoon className="text-gray-400 ml-3" />
+              <FaMoon className="text-gray-400 ml-3" aria-hidden="true" />
             </label>
           </nav>
         </div>

@@ -1,4 +1,3 @@
-// pages/login.tsx
 import Head from 'next/head';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
