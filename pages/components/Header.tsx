@@ -61,6 +61,17 @@ const Header = () => {
                 <Link href="/dashboard" className="bg-blue-500 px-3 py-1 rounded hover:bg-blue-700">
                   {t('dashboard')}
                 </Link>
+                <Link href="/profile" className="flex items-center space-x-2">
+                  <Image
+                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user?.firstName || '')}+${encodeURIComponent(user?.lastName || '')}`}
+                    alt={user?.firstName + ' ' + user?.lastName}
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                    priority
+                  />
+                  <span>{user?.firstName + ' ' + user?.lastName}</span>
+                </Link>
                 <ProfileDropdown />
               </>
             ) : (
@@ -116,14 +127,14 @@ const Header = () => {
               <>
                 <Link href="/profile" className="flex items-center space-x-2">
                   <Image
-                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.firstName)}+${encodeURIComponent(user.lastName)}`}
-                    alt={user.firstName + ' ' + user.lastName}
+                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user?.firstName || '')}+${encodeURIComponent(user?.lastName || '')}`}
+                    alt={user?.firstName + ' ' + user?.lastName}
                     width={40}
                     height={40}
                     className="rounded-full"
                     priority
                   />
-                  <span>{user.firstName + ' ' + user.lastName}</span>
+                  <span>{user?.firstName + ' ' + user?.lastName}</span>
                 </Link>
                 <hr className="border-gray-700" />
               </>

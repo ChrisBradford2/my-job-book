@@ -16,7 +16,7 @@ import { RegisterContext } from '@/context/registerContext';
 const Login: React.FC = () => {
   const router = useRouter();
   const { t } = useTranslation('common');
-  const { setUserIsLogged } = useAuth();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -47,7 +47,8 @@ const Login: React.FC = () => {
       });
 
       if (res.ok) {
-        setUserIsLogged(true);
+        const { user } = await res.json();
+        login(user);
         setLoading(false);
         router.push('/dashboard');
       } else if (res.status === 403) {

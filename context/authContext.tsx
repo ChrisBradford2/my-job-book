@@ -10,6 +10,7 @@ const AuthContext = createContext<{
   setUserIsLogged: (logged: boolean) => void;
   isAdmin: boolean;
   isLoading: boolean;
+  login: (user: User) => void;
 }>({
   user: null,
   setUser: () => {},
@@ -17,6 +18,7 @@ const AuthContext = createContext<{
   setUserIsLogged: () => {},
   isAdmin: false,
   isLoading: true,
+  login: () => {},
 });
 
 type AuthProviderProps = {
@@ -28,6 +30,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const login = (user: User) => {
+    setUser(user);
+    setUserIsLogged(true);
+    setIsAdmin(user.role === 'admin');
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -69,7 +78,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, userIsLogged, setUserIsLogged, isAdmin, isLoading }}>
+    <AuthContext.Provider value={{ user, setUser, userIsLogged, setUserIsLogged, isAdmin, isLoading, login }}>
       {children}
     </AuthContext.Provider>
   );

@@ -39,5 +39,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     maxAge: 3600,
   }));
 
-  res.status(200).json({ message: t('login_success') });
+  res.status(200).json({ user: { id: user.id, email: user.email, role: user.role }, message: t('login_success') });
 }
