@@ -134,7 +134,7 @@ const Header = () => {
           <nav className="p-4 space-y-4" aria-label="Sidebar Navigation">
             {user && (
               <>
-                <Link href="/profile" className="flex items-center space-x-2">
+                <Link href="/profile" className="flex items-center space-x-2 md:hidden">
                   <Image
                     src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user?.firstName || '')}+${encodeURIComponent(user?.lastName || '')}`}
                     alt={user?.firstName + ' ' + user?.lastName}
